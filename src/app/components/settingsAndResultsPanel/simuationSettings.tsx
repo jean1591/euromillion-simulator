@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import { DrawsPerSecondButton } from "./drawsPerSecondButton";
-import { SimuationSettings as ISimuationSettings } from "../page";
+import { SimuationSettings as ISimuationSettings } from "../../page";
 import { MyNumbers } from "./myNumbers";
 
 interface Props {

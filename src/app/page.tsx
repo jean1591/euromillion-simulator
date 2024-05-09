@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 
-import { SimuationSettings as SimuationSettingsComponent } from "./components/simuationSettings";
-import { SimulationResults } from "./components/SimulationResults";
+import { DrawsPanel } from "./components/drawsPanel/drawsPanel";
+import { SettingsAndResultsPanel } from "./components/settingsAndResultsPanel/settingsAndResultsPanel";
 
 export interface SimuationSettings {
   drawsPerSecond: number;
@@ -30,16 +30,12 @@ export default function Home() {
     <>
       {isClient ? (
         <div className="grid grid-cols-2 gap-20">
-          <div>
-            <SimuationSettingsComponent
-              settings={settings}
-              setSettings={setSettings}
-            />
-            {/* Re-rendered each time */}
-            <div>{results}</div>
-          </div>
+          <SettingsAndResultsPanel
+            settings={settings}
+            setSettings={setSettings}
+          />
 
-          <SimulationResults
+          <DrawsPanel
             results={results}
             setResults={setResults}
             simulationSettings={settings}

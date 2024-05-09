@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-import { DrawResult } from "./drawResult";
-import { SimuationSettings } from "../page";
+import { Draw } from "../draw";
+import { SimuationSettings } from "../../page";
 import { generateDraw } from "@/utils/generateDraw";
 import { profitsCalculator } from "@/utils/winCalculator";
 
@@ -53,9 +53,7 @@ export const Draws = ({ results, setResults, simulationSettings }: Props) => {
       {isClient ? (
         <>
           {draws.map((draw) => {
-            return (
-              <DrawResult key={draw.join()} myNumbers={myNumbers} draw={draw} />
-            );
+            return <Draw key={draw.join()} myNumbers={myNumbers} draw={draw} />;
           })}
         </>
       ) : (

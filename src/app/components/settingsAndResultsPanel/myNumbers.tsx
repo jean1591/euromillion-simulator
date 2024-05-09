@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-import { DrawResult } from "./drawResult";
-import { SimuationSettings } from "../page";
+import { Draw } from "../draw";
+import { SimuationSettings } from "../../page";
 import { generateDraw } from "@/utils/generateDraw";
 
 interface Props {
@@ -19,7 +19,7 @@ export const MyNumbers = ({ settings, setSettings }: Props) => {
 
   return (
     <div className="-mt-2">
-      <DrawResult myNumbers={[0]} draw={settings.myNumbers} />
+      <Draw myNumbers={[0]} draw={settings.myNumbers} />
     </div>
   );
 };

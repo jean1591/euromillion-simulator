@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 
 import { Draws } from "./draws";
-import { SimuationSettings } from "../page";
+import { SimuationSettings } from "../../page";
 
 interface Props {
   results: number;
@@ -9,7 +9,7 @@ interface Props {
   simulationSettings: SimuationSettings;
 }
 
-export const SimulationResults = ({
+export const DrawsPanel = ({
   results,
   setResults,
   simulationSettings,
