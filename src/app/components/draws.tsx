@@ -1,22 +1,20 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import { DrawResult } from "./drawResult";
+import { SimuationSettings } from "../page";
 import { generateDraw } from "@/utils/generateDraw";
 import { profitsCalculator } from "@/utils/winCalculator";
 
 interface Props {
-  drawsPerSecond: number;
-  myNumbers: number[];
   results: number;
   setResults: Dispatch<SetStateAction<number>>;
+  simulationSettings: SimuationSettings;
 }
 
-export const Draws = ({
-  drawsPerSecond,
-  myNumbers,
-  results,
-  setResults,
-}: Props) => {
+export const Draws = ({ results, setResults, simulationSettings }: Props) => {
+  console.log("🚀 ~ Draws");
+
+  const { drawsPerSecond, isRunning, myNumbers } = simulationSettings;
   const [isClient, setIsClient] = useState<boolean>(false);
   const [draws, setDraws] = useState<number[][]>([]);
 
@@ -25,7 +23,21 @@ export const Draws = ({
   }, []);
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
+    let intervalId: NodeJS.Timeout;
+
+    /* if (isRunning) {
+      intervalId = setInterval(() => {
+        const draw = generateDraw();
+
+        setResults(results + profitsCalculator(myNumbers, draw));
+
+        setDraws([draw, ...draws]);
+      }, Math.floor(1000 / drawsPerSecond));
+    } else {
+      return () => clearInterval(intervalId);
+    } */
+
+    intervalId = setInterval(() => {
       const draw = generateDraw();
 
       setResults(results + profitsCalculator(myNumbers, draw));
@@ -34,7 +46,7 @@ export const Draws = ({
     }, Math.floor(1000 / drawsPerSecond));
 
     return () => clearInterval(intervalId);
-  }, [draws]);
+  }, [draws, isRunning]);
 
   return (
     <>

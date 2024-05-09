@@ -18,10 +18,9 @@ export const SimulationResults = ({
     <div>
       <p className="pb-6 text-lg font-semibold">Tirages</p>
       <Draws
-        drawsPerSecond={simulationSettings.drawsPerSecond}
-        myNumbers={simulationSettings.myNumbers}
         results={results}
         setResults={setResults}
+        simulationSettings={simulationSettings}
       />
     </div>
   );

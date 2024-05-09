@@ -1,24 +1,21 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-import { DrawResult } from "./drawResult";
 import { DrawsPerSecondButton } from "./drawsPerSecondButton";
 import { SimuationSettings as ISimuationSettings } from "../page";
-import { generateDraw } from "@/utils/generateDraw";
+import { MyNumbers } from "./myNumbers";
 
 interface Props {
+  settings: ISimuationSettings;
   setSettings: Dispatch<SetStateAction<ISimuationSettings>>;
 }
 
-// TODO: why is this rendered at each draw ?
-export const SimuationSettings = ({ setSettings }: Props) => {
+export const SimuationSettings = ({ settings, setSettings }: Props) => {
   console.log("🚀 ~ SimuationSettings");
   const [drawsPerSecond, setDrawsPerSecond] = useState(1);
 
-  const myNumbers = generateDraw();
-
   useEffect(() => {
     console.log(`Settings updated: drawsPerSecond ${drawsPerSecond}...`);
-    setSettings({ myNumbers, drawsPerSecond });
+    setSettings({ ...settings, drawsPerSecond });
   }, [drawsPerSecond]);
 
   return (
@@ -30,9 +27,23 @@ export const SimuationSettings = ({ setSettings }: Props) => {
 
       <div className="pb-6 flex items-center justify-between">
         <p className="text-lg font-semibold">Vos numéros</p>
-        <div className="-mt-2">
-          <DrawResult myNumbers={[0]} draw={myNumbers} />
-        </div>
+        <MyNumbers settings={settings} setSettings={setSettings} />
+      </div>
+
+      <div className="pb-6 flex items-center justify-between">
+        <button
+          type="button"
+          className="relative inline-flex items-center justify-center rounded-md w-full px-3 py-2 text-sm font-semibold border border-dark-shade/25 text-dark-shade hover:bg-dark-shade/10"
+          onClick={() =>
+            setSettings({ ...settings, isRunning: !settings.isRunning })
+          }
+        >
+          {settings.isRunning ? (
+            <p>Mettre en pause (ne fonctionne pas)</p>
+          ) : (
+            <p>Lancer la simulation</p>
+          )}
+        </button>
       </div>
     </div>
   );

@@ -7,11 +7,13 @@ import { SimulationResults } from "./components/SimulationResults";
 
 export interface SimuationSettings {
   drawsPerSecond: number;
+  isRunning: boolean;
   myNumbers: number[];
 }
 
 const initialSettings: SimuationSettings = {
   drawsPerSecond: 1,
+  isRunning: false,
   myNumbers: [1, 2, 3, 4, 5, 6, 7],
 };
 
@@ -29,7 +31,11 @@ export default function Home() {
       {isClient ? (
         <div className="grid grid-cols-2 gap-20">
           <div>
-            <SimuationSettingsComponent setSettings={setSettings} />
+            <SimuationSettingsComponent
+              settings={settings}
+              setSettings={setSettings}
+            />
+            {/* Re-rendered each time */}
             <div>{results}</div>
           </div>
 
