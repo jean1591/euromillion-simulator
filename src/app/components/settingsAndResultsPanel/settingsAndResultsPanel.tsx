@@ -1,21 +1,33 @@
 "use client";
 
-import React, { Dispatch, SetStateAction } from "react";
+import React, { useEffect, useState } from "react";
 
-import { SimuationSettings as ISimuationSettings } from "../../page";
+import { RootState } from "@/lib/store";
 import { SimuationSettings } from "./simuationSettings";
+import { useSelector } from "react-redux";
 
-interface Props {
-  settings: ISimuationSettings;
-  setSettings: Dispatch<SetStateAction<ISimuationSettings>>;
-}
+export const SettingsAndResultsPanel = () => {
+  const { winnings } = useSelector(
+    (state: RootState) => state.simulationResults
+  );
 
-export const SettingsAndResultsPanel = ({ settings, setSettings }: Props) => {
+  const [isClient, setIsClient] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
     <div>
-      <SimuationSettings settings={settings} setSettings={setSettings} />
-      {/* Re-rendered each time */}
-      <div>12</div>
+      {isClient ? (
+        <div>
+          <SimuationSettings />
+          {/* Re-rendered each time */}
+          <div>{winnings}</div>
+        </div>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 };

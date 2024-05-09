@@ -9,7 +9,7 @@ export const Draw = ({
   draw: number[];
   myNumbers: number[];
 }) => {
-  const baseNumbers = myNumbers.slice(0, 6);
+  const baseNumbers = myNumbers.slice(0, -2);
   const starNumbers = myNumbers.slice(-2);
 
   return (

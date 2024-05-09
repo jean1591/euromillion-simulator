@@ -1,48 +1,36 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import {
+  addToWinnings,
+  pushNewDraw,
+} from "@/lib/features/simulationResults/slice";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Draw } from "../draw";
-import { SimuationSettings } from "../../page";
+import { RootState } from "@/lib/store";
 import { generateDraw } from "@/utils/generateDraw";
 import { profitsCalculator } from "@/utils/winCalculator";
 
-interface Props {
-  results: number;
-  setResults: Dispatch<SetStateAction<number>>;
-  simulationSettings: SimuationSettings;
-}
-
-export const Draws = ({ results, setResults, simulationSettings }: Props) => {
+export const Draws = () => {
   console.log("🚀 ~ Draws");
 
-  const { drawsPerSecond, isRunning, myNumbers } = simulationSettings;
+  const { drawsPerSecond, isRunning, myNumbers } = useSelector(
+    (state: RootState) => state.simulationSettings
+  );
+  const { draws } = useSelector((state: RootState) => state.simulationResults);
+  const dispatch = useDispatch();
+
   const [isClient, setIsClient] = useState<boolean>(false);
-  const [draws, setDraws] = useState<number[][]>([]);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
   useEffect(() => {
-    let intervalId: NodeJS.Timeout;
-
-    /* if (isRunning) {
-      intervalId = setInterval(() => {
-        const draw = generateDraw();
-
-        setResults(results + profitsCalculator(myNumbers, draw));
-
-        setDraws([draw, ...draws]);
-      }, Math.floor(1000 / drawsPerSecond));
-    } else {
-      return () => clearInterval(intervalId);
-    } */
-
-    intervalId = setInterval(() => {
+    const intervalId = setInterval(() => {
       const draw = generateDraw();
 
-      setResults(results + profitsCalculator(myNumbers, draw));
-
-      setDraws([draw, ...draws]);
+      dispatch(pushNewDraw(draw));
+      dispatch(addToWinnings(profitsCalculator(myNumbers, draw)));
     }, Math.floor(1000 / drawsPerSecond));
 
     return () => clearInterval(intervalId);

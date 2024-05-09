@@ -1,25 +1,27 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Draw } from "../draw";
-import { SimuationSettings } from "../../page";
+import { RootState } from "@/lib/store";
 import { generateDraw } from "@/utils/generateDraw";
+import { setMyNumbers } from "@/lib/features/simulationSettings/slice";
+import { useEffect } from "react";
 
-interface Props {
-  settings: SimuationSettings;
-  setSettings: Dispatch<SetStateAction<SimuationSettings>>;
-}
+export const MyNumbers = () => {
+  const myNumbers = useSelector(
+    (state: RootState) => state.simulationSettings.myNumbers
+  );
+  const dispatch = useDispatch();
 
-export const MyNumbers = ({ settings, setSettings }: Props) => {
   useEffect(() => {
     const myNumbers = generateDraw();
 
     console.log(`Settings updated: myNumbers ${myNumbers}...`);
-    setSettings({ ...settings, myNumbers });
+    dispatch(setMyNumbers(myNumbers));
   }, []);
 
   return (
     <div className="-mt-2">
-      <Draw myNumbers={[0]} draw={settings.myNumbers} />
+      <Draw myNumbers={[0]} draw={myNumbers} />
     </div>
   );
 };
