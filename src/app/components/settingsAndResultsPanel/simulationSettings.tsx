@@ -1,5 +1,7 @@
 import { DrawsPerSecondButton } from "./drawsPerSecondButton";
 import { MyNumbers } from "./myNumbers";
+import { NumberOfDrawsPerWeek } from "./drawsPerWeek";
+import { NumberOfWeeksToPlay } from "./numberOfWeeksToPlay";
 
 export const SimuationSettings = () => {
   return (
@@ -17,18 +19,16 @@ export const SimuationSettings = () => {
       <div>
         <div className="pt-7 flex items-center justify-between">
           <p className="text-lg font-semibold">Semaines</p>
-          <input
-            type="text"
-            className="block w-1/3 rounded-md py-1.5 px-2 text-dark-shade  placeholder:text-dark-shade/50 border border-dark-shade/20"
-            placeholder="52"
-            onChange={(e) => {
-              console.log(e.target.value);
-            }}
-          />
+          <NumberOfWeeksToPlay />
         </div>
         <p className="pt-1 text-xs font-light">
           (Nombres de semaines pendants lesquelles vous souhaitez jouer)
         </p>
+      </div>
+
+      <div className="pt-7 flex items-center justify-between">
+        <p className="text-lg font-semibold">2 tirages par semaines</p>
+        <NumberOfDrawsPerWeek />
       </div>
     </div>
   );

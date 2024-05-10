@@ -2,7 +2,7 @@
 
 import { Divider } from "../divider";
 import { FinancialResults } from "./financialResults";
-import { SimuationSettings } from "./simuationSettings";
+import { SimuationSettings } from "./simulationSettings";
 
 export const SettingsAndResultsPanel = () => {
   return (
