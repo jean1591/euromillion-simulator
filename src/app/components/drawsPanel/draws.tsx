@@ -1,19 +1,18 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import {
   addToWinnings,
   pushNewDraw,
+  setDrawsNumber,
 } from "@/lib/features/simulationResults/slice";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 import { Draw } from "../draw";
 import { RootState } from "@/lib/store";
 import { generateDraw } from "@/utils/generateDraw";
-import { profitsCalculator } from "@/utils/winCalculator";
+import { winningsCalculator } from "@/utils/winningsCalculator";
 
 export const Draws = () => {
-  console.log("🚀 ~ Draws");
-
-  const { drawsPerSecond, isRunning, myNumbers } = useSelector(
+  const { drawsPerSecond, myNumbers } = useSelector(
     (state: RootState) => state.simulationSettings
   );
   const { draws } = useSelector((state: RootState) => state.simulationResults);
@@ -28,13 +27,18 @@ export const Draws = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       const draw = generateDraw();
+      const winnings = winningsCalculator(myNumbers, draw);
 
-      dispatch(pushNewDraw(draw));
-      dispatch(addToWinnings(profitsCalculator(myNumbers, draw)));
+      dispatch(addToWinnings(winnings));
+      dispatch(setDrawsNumber());
+
+      if (winnings) {
+        dispatch(pushNewDraw(draw));
+      }
     }, Math.floor(1000 / drawsPerSecond));
 
     return () => clearInterval(intervalId);
-  }, [draws, isRunning]);
+  }, [draws]);
 
   return (
     <>

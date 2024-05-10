@@ -2,15 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 
-import { RootState } from "@/lib/store";
+import { FinancialResults } from "./financialResults";
 import { SimuationSettings } from "./simuationSettings";
-import { useSelector } from "react-redux";
 
 export const SettingsAndResultsPanel = () => {
-  const { winnings } = useSelector(
-    (state: RootState) => state.simulationResults
-  );
-
   const [isClient, setIsClient] = useState<boolean>(false);
 
   useEffect(() => {
@@ -19,11 +14,11 @@ export const SettingsAndResultsPanel = () => {
 
   return (
     <div>
+      <p className="text-2xl font-semibold text-center pb-20">Paramètres</p>
       {isClient ? (
         <div>
           <SimuationSettings />
-          {/* Re-rendered each time */}
-          <div>{winnings}</div>
+          <FinancialResults />
         </div>
       ) : (
         <div></div>

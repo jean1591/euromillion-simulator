@@ -17,9 +17,9 @@ export const SimuationSettings = () => {
         <MyNumbers />
       </div>
 
-      <div className="pb-6 flex items-center justify-between">
+      {/* <div className="pb-6 flex items-center justify-between">
         <StartAndPauseSimulationButton />
-      </div>
+      </div> */}
     </div>
   );
 };
