@@ -1,4 +1,3 @@
-import { DrawsPerSecondButton } from "./drawsPerSecondButton";
 import { MyNumbers } from "./myNumbers";
 import { NumberOfDrawsPerWeek } from "./drawsPerWeek";
 import { NumberOfWeeksToPlay } from "./numberOfWeeksToPlay";
@@ -8,11 +7,6 @@ export const SimuationSettings = () => {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <p className="text-lg font-semibold">Tirages par seconde</p>
-        <DrawsPerSecondButton />
-      </div>
-
-      <div className="pt-7 flex items-center justify-between">
         <p className="text-lg font-semibold">Vos numéros</p>
         <MyNumbers />
       </div>
