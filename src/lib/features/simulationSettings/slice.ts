@@ -13,10 +13,10 @@ export interface SimulationSettingsState {
 
 const initialState: SimulationSettingsState = {
   drawsPerSecond: 1,
-  isRunning: true,
+  isRunning: false,
   myNumbers: generateDraw(),
   numberOfDraws: 52,
-  numberOfDrawsPerWeek: 1,
+  numberOfDrawsPerWeek: 2,
   numberOfWeeksToPlay: 52,
 };
 

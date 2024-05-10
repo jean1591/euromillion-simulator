@@ -11,7 +11,7 @@ function classNames(...classes: string[]) {
 export const NumberOfDrawsPerWeek = () => {
   const dispatch = useDispatch();
 
-  const [enabled, setEnabled] = useState(false);
+  const [enabled, setEnabled] = useState(true);
 
   useEffect(() => {
     dispatch(setNumberOfDrawsPerWeek(enabled ? 2 : 1));
