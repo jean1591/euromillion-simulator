@@ -4,14 +4,18 @@ import { generateDraw } from "@/utils/generateDraw";
 
 export interface SimulationSettingsState {
   drawsPerSecond: number;
+  isRunning: boolean;
   myNumbers: number[];
+  numberOfDraws: number;
   numberOfDrawsPerWeek: number;
   numberOfWeeksToPlay: number;
 }
 
 const initialState: SimulationSettingsState = {
   drawsPerSecond: 1,
+  isRunning: true,
   myNumbers: generateDraw(),
+  numberOfDraws: 52,
   numberOfDrawsPerWeek: 1,
   numberOfWeeksToPlay: 52,
 };
@@ -20,6 +24,9 @@ export const simulationSettingsSlice = createSlice({
   name: "simulationSettings",
   initialState,
   reducers: {
+    setIsRunning: (state) => {
+      state.isRunning = !state.isRunning;
+    },
     setDrawsPerSecond: (state, action: PayloadAction<number>) => {
       state.drawsPerSecond = action.payload;
     },
@@ -28,15 +35,20 @@ export const simulationSettingsSlice = createSlice({
     },
     setNumberOfWeeksToPlay: (state, action: PayloadAction<number>) => {
       state.numberOfWeeksToPlay = action.payload;
+      state.numberOfDraws =
+        state.numberOfWeeksToPlay * state.numberOfDrawsPerWeek;
     },
     setNumberOfDrawsPerWeek: (state, action: PayloadAction<number>) => {
       state.numberOfDrawsPerWeek = action.payload;
+      state.numberOfDraws =
+        state.numberOfWeeksToPlay * state.numberOfDrawsPerWeek;
     },
   },
 });
 
 export const {
   setDrawsPerSecond,
+  setIsRunning,
   setMyNumbers,
   setNumberOfDrawsPerWeek,
   setNumberOfWeeksToPlay,

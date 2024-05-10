@@ -3,7 +3,7 @@ import { Draws } from "./draws";
 export const DrawsPanel = () => {
   return (
     <div>
-      <p className="text-2xl font-semibold text-center pb-20">
+      <p className="text-2xl font-semibold text-center pb-10">
         Tirages gagnants
       </p>
       <Draws />

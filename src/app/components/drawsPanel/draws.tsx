@@ -12,10 +12,12 @@ import { generateDraw } from "@/utils/generateDraw";
 import { winningsCalculator } from "@/utils/winningsCalculator";
 
 export const Draws = () => {
-  const { drawsPerSecond, myNumbers } = useSelector(
+  const { drawsPerSecond, isRunning, myNumbers, numberOfDraws } = useSelector(
     (state: RootState) => state.simulationSettings
   );
-  const { draws } = useSelector((state: RootState) => state.simulationResults);
+  const { draws, drawsNumber } = useSelector(
+    (state: RootState) => state.simulationResults
+  );
   const dispatch = useDispatch();
 
   const [isClient, setIsClient] = useState<boolean>(false);
@@ -25,20 +27,22 @@ export const Draws = () => {
   }, []);
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      const draw = generateDraw();
-      const winnings = winningsCalculator(myNumbers, draw);
+    if (isRunning && drawsNumber < numberOfDraws) {
+      const intervalId = setInterval(() => {
+        const draw = generateDraw();
+        const winnings = winningsCalculator(myNumbers, draw);
 
-      dispatch(setDrawsNumber());
+        dispatch(setDrawsNumber());
 
-      if (winnings) {
-        dispatch(addToWinnings(winnings));
-        dispatch(pushNewDraw(draw));
-      }
-    }, Math.floor(1000 / drawsPerSecond));
+        if (winnings) {
+          dispatch(addToWinnings(winnings));
+          dispatch(pushNewDraw(draw));
+        }
+      }, Math.floor(100));
 
-    return () => clearInterval(intervalId);
-  }, [drawsPerSecond]);
+      return () => clearInterval(intervalId);
+    }
+  }, [drawsPerSecond, isRunning, drawsNumber]);
 
   return (
     <>
