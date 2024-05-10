@@ -8,22 +8,21 @@ export const FinancialResults = () => {
 
   return (
     <div className="text-lg">
-      <div className="pb-2 flex items-center gap-x-5">
-        <p className="font-medium">Total dépensé</p>
-        <p className="font-normal">
-          {drawsNumber * 2.5}€ ({drawsNumber} tirages)
-        </p>
-      </div>
+      <TextDisplay title="Total dépensé" value={`${drawsNumber * 2.5}€`} />
+      <TextDisplay title="Gains" value={`${winnings}€`} />
+      <TextDisplay
+        title="Balance"
+        value={`${-drawsNumber * 2.5 + winnings}€`}
+      />
+    </div>
+  );
+};
 
-      <div className="pb-2 flex items-center gap-x-5">
-        <p className="font-medium">Gains</p>
-        <p className="font-normal">{winnings}€</p>
-      </div>
-
-      <div className="pb-2 flex items-center gap-x-5">
-        <p className="font-medium">Balance</p>
-        <p className="font-normal">{-drawsNumber * 2.5 + winnings}€</p>
-      </div>
+const TextDisplay = ({ title, value }: { title: string; value: string }) => {
+  return (
+    <div className="pt-2 flex items-center gap-x-5">
+      <p className="font-medium">{title}</p>
+      <p className="font-light">{value}</p>
     </div>
   );
 };

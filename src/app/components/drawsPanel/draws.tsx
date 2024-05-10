@@ -29,16 +29,16 @@ export const Draws = () => {
       const draw = generateDraw();
       const winnings = winningsCalculator(myNumbers, draw);
 
-      dispatch(addToWinnings(winnings));
       dispatch(setDrawsNumber());
 
       if (winnings) {
+        dispatch(addToWinnings(winnings));
         dispatch(pushNewDraw(draw));
       }
     }, Math.floor(1000 / drawsPerSecond));
 
     return () => clearInterval(intervalId);
-  }, [draws]);
+  }, [drawsPerSecond]);
 
   return (
     <>

@@ -1,27 +1,30 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 import { Draw } from "../draw";
 import { RootState } from "@/lib/store";
-import { generateDraw } from "@/utils/generateDraw";
-import { setMyNumbers } from "@/lib/features/simulationSettings/slice";
-import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 export const MyNumbers = () => {
+  const [isClient, setIsClient] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const myNumbers = useSelector(
     (state: RootState) => state.simulationSettings.myNumbers
   );
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const myNumbers = generateDraw();
-
-    console.log(`Settings updated: myNumbers ${myNumbers}...`);
-    dispatch(setMyNumbers(myNumbers));
-  }, []);
 
   return (
-    <div className="-mt-2">
-      <Draw myNumbers={[0]} draw={myNumbers} />
-    </div>
+    <>
+      {isClient ? (
+        <div className="-mt-2">
+          <Draw myNumbers={[0]} draw={myNumbers} />
+        </div>
+      ) : (
+        /* INSERT SKELETON */
+        <></>
+      )}
+    </>
   );
 };

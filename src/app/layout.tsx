@@ -14,7 +14,7 @@ export default function RootLayout({
     <StoreProvider>
       <html lang="fr">
         <body className={inter.className}>
-          <div className="bg-light-shade text-dark-shade min-h-screen">
+          <div className="bg-dark-shade/10 text-dark-shade min-h-screen">
             <div className="pt-16 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-16">
               {children}
             </div>

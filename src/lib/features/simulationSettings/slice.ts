@@ -1,5 +1,6 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
+import { generateDraw } from "@/utils/generateDraw";
 
 export interface SimulationSettingsState {
   drawsPerSecond: number;
@@ -8,7 +9,7 @@ export interface SimulationSettingsState {
 
 const initialState: SimulationSettingsState = {
   drawsPerSecond: 1,
-  myNumbers: [1, 2, 3, 4, 5, 6, 7],
+  myNumbers: generateDraw(),
 };
 
 export const simulationSettingsSlice = createSlice({
