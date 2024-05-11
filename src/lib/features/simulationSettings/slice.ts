@@ -2,34 +2,32 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import { generateDraw } from "@/utils/generateDraw";
 
+export enum SimulationStatus {
+  Idle = "idle",
+  Paused = "paused",
+  Running = "running",
+}
+
 export interface SimulationSettingsState {
-  drawsPerSecond: number;
-  isRunning: boolean;
   myNumbers: number[];
   numberOfDraws: number;
   numberOfDrawsPerWeek: number;
   numberOfWeeksToPlay: number;
+  simulationStatus: SimulationStatus;
 }
 
 const initialState: SimulationSettingsState = {
-  drawsPerSecond: 1,
-  isRunning: false,
   myNumbers: generateDraw(),
-  numberOfDraws: 52,
+  numberOfDraws: 104,
   numberOfDrawsPerWeek: 2,
   numberOfWeeksToPlay: 52,
+  simulationStatus: SimulationStatus.Idle,
 };
 
 export const simulationSettingsSlice = createSlice({
   name: "simulationSettings",
   initialState,
   reducers: {
-    setIsRunning: (state) => {
-      state.isRunning = !state.isRunning;
-    },
-    setDrawsPerSecond: (state, action: PayloadAction<number>) => {
-      state.drawsPerSecond = action.payload;
-    },
     setMyNumbers: (state, action: PayloadAction<number[]>) => {
       state.myNumbers = action.payload;
     },
@@ -43,15 +41,17 @@ export const simulationSettingsSlice = createSlice({
       state.numberOfDraws =
         state.numberOfWeeksToPlay * state.numberOfDrawsPerWeek;
     },
+    setSimulationStatus: (state, action: PayloadAction<SimulationStatus>) => {
+      state.simulationStatus = action.payload;
+    },
   },
 });
 
 export const {
-  setDrawsPerSecond,
-  setIsRunning,
   setMyNumbers,
   setNumberOfDrawsPerWeek,
   setNumberOfWeeksToPlay,
+  setSimulationStatus,
 } = simulationSettingsSlice.actions;
 
 export default simulationSettingsSlice.reducer;

@@ -1,4 +1,8 @@
 import {
+  SimulationStatus,
+  setSimulationStatus,
+} from "@/lib/features/simulationSettings/slice";
+import {
   addToWinnings,
   pushNewDraw,
   setDrawsNumber,
@@ -12,7 +16,7 @@ import { generateDraw } from "@/utils/generateDraw";
 import { winningsCalculator } from "@/utils/winningsCalculator";
 
 export const Draws = () => {
-  const { drawsPerSecond, isRunning, myNumbers, numberOfDraws } = useSelector(
+  const { myNumbers, numberOfDraws, simulationStatus } = useSelector(
     (state: RootState) => state.simulationSettings
   );
   const { draws, drawsNumber } = useSelector(
@@ -27,7 +31,10 @@ export const Draws = () => {
   }, []);
 
   useEffect(() => {
-    if (isRunning && drawsNumber < numberOfDraws) {
+    if (
+      simulationStatus === SimulationStatus.Running &&
+      drawsNumber < numberOfDraws
+    ) {
       const intervalId = setInterval(() => {
         const draw = generateDraw();
         const winnings = winningsCalculator(myNumbers, draw);
@@ -38,11 +45,17 @@ export const Draws = () => {
           dispatch(addToWinnings(winnings));
           dispatch(pushNewDraw(draw));
         }
-      }, Math.floor(100));
+      }, 50);
 
       return () => clearInterval(intervalId);
     }
-  }, [drawsPerSecond, isRunning, drawsNumber]);
+  }, [simulationStatus, drawsNumber]);
+
+  useEffect(() => {
+    if (drawsNumber === numberOfDraws) {
+      dispatch(setSimulationStatus(SimulationStatus.Idle));
+    }
+  }, [drawsNumber]);
 
   return (
     <>

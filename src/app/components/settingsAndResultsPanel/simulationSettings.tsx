@@ -1,7 +1,7 @@
 import { MyNumbers } from "./myNumbers";
 import { NumberOfDrawsPerWeek } from "./drawsPerWeek";
 import { NumberOfWeeksToPlay } from "./numberOfWeeksToPlay";
-import { StartAndPauseButton } from "./StartAndPauseButton";
+import { StartAndPauseButton } from "./startAndPauseButton";
 
 export const SimuationSettings = () => {
   return (

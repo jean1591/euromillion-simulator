@@ -26,10 +26,19 @@ export const simulationResultsSlice = createSlice({
     setDrawsNumber: (state) => {
       state.drawsNumber += 1;
     },
+    resetSimulationResults: (state) => {
+      state.draws = [];
+      state.drawsNumber = 0;
+      state.winnings = 0;
+    },
   },
 });
 
-export const { addToWinnings, pushNewDraw, setDrawsNumber } =
-  simulationResultsSlice.actions;
+export const {
+  addToWinnings,
+  pushNewDraw,
+  resetSimulationResults,
+  setDrawsNumber,
+} = simulationResultsSlice.actions;
 
 export default simulationResultsSlice.reducer;
