@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
 
 import { Switch } from "@headlessui/react";
+import { classNames } from "@/utils/classNames";
 import { setNumberOfDrawsPerWeek } from "@/lib/features/simulationSettings/slice";
 import { useDispatch } from "react-redux";
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
 
 export const NumberOfDrawsPerWeek = () => {
   const dispatch = useDispatch();
