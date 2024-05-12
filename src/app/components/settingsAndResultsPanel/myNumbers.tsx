@@ -18,11 +18,10 @@ export const MyNumbers = () => {
   return (
     <>
       {isClient ? (
-        <div className="-mt-2">
+        <div className="-mt-5">
           <Draw myNumbers={[0]} draw={myNumbers} />
         </div>
       ) : (
-        /* INSERT SKELETON */
         <></>
       )}
     </>

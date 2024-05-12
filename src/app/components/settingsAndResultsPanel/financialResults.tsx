@@ -1,4 +1,5 @@
 import { RootState } from "@/lib/store";
+import { SimulationStatus } from "./simulationStatus";
 import { useSelector } from "react-redux";
 
 export const FinancialResults = () => {
@@ -8,12 +9,16 @@ export const FinancialResults = () => {
 
   return (
     <div className="text-base">
-      <TextDisplay title="Total dépensé" value={`${drawsNumber * 2.5}€`} />
-      <TextDisplay title="Gains" value={`${winnings}€`} />
-      <TextDisplay
-        title="Balance"
-        value={`${-drawsNumber * 2.5 + winnings}€`}
-      />
+      <SimulationStatus />
+
+      <div className="pt-6">
+        <TextDisplay title="Total dépensé" value={`${drawsNumber * 2.5}€`} />
+        <TextDisplay title="Gains" value={`${winnings}€`} />
+        <TextDisplay
+          title="Balance"
+          value={`${-drawsNumber * 2.5 + winnings}€`}
+        />
+      </div>
     </div>
   );
 };
