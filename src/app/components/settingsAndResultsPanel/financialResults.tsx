@@ -7,7 +7,7 @@ export const FinancialResults = () => {
   );
 
   return (
-    <div className="text-lg">
+    <div className="text-base">
       <TextDisplay title="Total dépensé" value={`${drawsNumber * 2.5}€`} />
       <TextDisplay title="Gains" value={`${winnings}€`} />
       <TextDisplay

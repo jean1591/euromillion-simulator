@@ -45,7 +45,7 @@ export const Draws = () => {
           dispatch(addToWinnings(winnings));
           dispatch(pushNewDraw(draw));
         }
-      }, 50);
+      }, 25);
 
       return () => clearInterval(intervalId);
     }

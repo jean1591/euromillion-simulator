@@ -7,13 +7,13 @@ export const SimuationSettings = () => {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <p className="text-base font-semibold">Vos numéros</p>
+        <p className="text-base font-medium">Vos numéros</p>
         <MyNumbers />
       </div>
 
       <div>
         <div className="pt-7 flex items-center justify-between">
-          <p className="text-base font-semibold">Semaines</p>
+          <p className="text-base font-medium">Semaines</p>
           <NumberOfWeeksToPlay />
         </div>
         <p className="pt-1 text-xs font-light">
@@ -22,7 +22,7 @@ export const SimuationSettings = () => {
       </div>
 
       <div className="pt-7 flex items-center justify-between">
-        <p className="text-base font-semibold">2 tirages par semaines</p>
+        <p className="text-base font-medium">2 tirages par semaines</p>
         <NumberOfDrawsPerWeek />
       </div>
 

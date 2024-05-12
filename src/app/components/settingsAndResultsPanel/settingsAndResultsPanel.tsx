@@ -1,5 +1,3 @@
-"use client";
-
 import { Divider } from "../divider";
 import { FinancialResults } from "./financialResults";
 import { Panel } from "../panel";
