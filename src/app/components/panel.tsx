@@ -1,9 +1,20 @@
-export const Panel = ({ children }: { children: React.ReactNode }) => {
+import { classNames } from "@/utils/classNames";
+
+export const Panel = ({
+  height = "h-96",
+  children,
+}: {
+  height?: string;
+  children: React.ReactNode;
+}) => {
   return (
-    <div className="h-screen">
-      <div className="border border-dark-shade/25 bg-light-shade py-10 px-5 rounded-md overflow-y-scroll h-4/5 shadow-lg">
-        {children}
-      </div>
+    <div
+      className={classNames(
+        height,
+        "border border-dark-shade/25 bg-light-shade py-10 px-5 rounded-md overflow-y-scroll shadow-lg"
+      )}
+    >
+      {children}
     </div>
   );
 };

@@ -17,7 +17,7 @@ export const SimulationStatus = () => {
   }, [drawsNumber]);
 
   return (
-    <div className="overflow-hidden rounded-full bg-gray-200">
+    <div className="overflow-hidden rounded-full bg-light-shade">
       <div
         className="h-2 rounded-full bg-dark-accent"
         style={{ width: `${simulationPercentage}%` }}
