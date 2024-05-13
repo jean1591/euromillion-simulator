@@ -1,15 +1,29 @@
 import { RootState } from "@/lib/store";
 import { SimulationStatus } from "./simulationStatus";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 export const FinancialResults = () => {
+  const { numberOfDrawsPerWeek, numberOfWeeksToPlay } = useSelector(
+    (state: RootState) => state.simulationSettings
+  );
   const { drawsNumber, winnings } = useSelector(
     (state: RootState) => state.simulationResults
   );
 
+  useEffect(() => {}, [numberOfDrawsPerWeek, numberOfWeeksToPlay]);
+
   return (
     <div className="text-base">
-      <SimulationStatus />
+      <p className="text-center font-medium">
+        {`${numberOfDrawsPerWeek} tirages par semaine sur 
+        ${isNaN(numberOfWeeksToPlay) ? 52 : numberOfWeeksToPlay} 
+        semaines`}
+      </p>
+
+      <div className="pt-6">
+        <SimulationStatus />
+      </div>
 
       <div className="pt-6">
         <TextDisplay title="Total dépensé" value={`${drawsNumber * 2.5}€`} />
