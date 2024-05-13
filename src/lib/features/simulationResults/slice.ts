@@ -4,12 +4,14 @@ import { createSlice } from "@reduxjs/toolkit";
 export interface SimulationResultsState {
   draws: number[][];
   drawsNumber: number;
+  winningsArray: number[];
   winnings: number;
 }
 
 const initialState: SimulationResultsState = {
   draws: [],
   drawsNumber: 0,
+  winningsArray: [],
   winnings: 0,
 };
 
@@ -22,6 +24,9 @@ export const simulationResultsSlice = createSlice({
     },
     pushNewDraw: (state, action: PayloadAction<number[]>) => {
       state.draws = [action.payload, ...state.draws];
+    },
+    pushNewWinnings: (state, action: PayloadAction<number>) => {
+      state.winningsArray = [action.payload, ...state.winningsArray];
     },
     setDrawsNumber: (state) => {
       state.drawsNumber += 1;
@@ -37,6 +42,7 @@ export const simulationResultsSlice = createSlice({
 export const {
   addToWinnings,
   pushNewDraw,
+  pushNewWinnings,
   resetSimulationResults,
   setDrawsNumber,
 } = simulationResultsSlice.actions;

@@ -5,26 +5,27 @@ import {
 import {
   addToWinnings,
   pushNewDraw,
+  pushNewWinnings,
   setDrawsNumber,
 } from "@/lib/features/simulationResults/slice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
-import { Draw } from "../draw";
+import { DrawAndWinnings } from "./drawsAndWinnings";
 import { RootState } from "@/lib/store";
 import { generateDraw } from "@/utils/generateDraw";
 import { winningsCalculator } from "@/utils/winningsCalculator";
 
 export const Draws = () => {
+  const [isClient, setIsClient] = useState<boolean>(false);
+
   const { myNumbers, numberOfDraws, simulationStatus } = useSelector(
     (state: RootState) => state.simulationSettings
   );
-  const { draws, drawsNumber } = useSelector(
+  const { draws, drawsNumber, winningsArray } = useSelector(
     (state: RootState) => state.simulationResults
   );
   const dispatch = useDispatch();
-
-  const [isClient, setIsClient] = useState<boolean>(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -42,8 +43,9 @@ export const Draws = () => {
         dispatch(setDrawsNumber());
 
         if (winnings) {
-          dispatch(addToWinnings(winnings));
+          dispatch(addToWinnings(winnings)); // Delete this and use winningsArray ?
           dispatch(pushNewDraw(draw));
+          dispatch(pushNewWinnings(winnings));
         }
       }, 25);
 
@@ -61,8 +63,15 @@ export const Draws = () => {
     <>
       {isClient ? (
         <>
-          {draws.map((draw) => {
-            return <Draw key={draw.join()} myNumbers={myNumbers} draw={draw} />;
+          {draws.map((draw, index) => {
+            return (
+              <DrawAndWinnings
+                key={draw.join()}
+                myNumbers={myNumbers}
+                draw={draw}
+                winnings={winningsArray[index]}
+              />
+            );
           })}
         </>
       ) : (
