@@ -29,7 +29,7 @@ export const FinancialResults = () => {
         <TextDisplay title="Total dépensé" value={`${drawsNumber * 2.5}€`} />
         <TextDisplay title="Gains" value={`${winnings}€`} />
         <TextDisplay
-          title="Balance"
+          title="Résultat"
           value={`${-drawsNumber * 2.5 + winnings}€`}
         />
       </div>

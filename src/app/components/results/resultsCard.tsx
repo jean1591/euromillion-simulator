@@ -11,7 +11,7 @@ export const ResultsCard = () => {
   );
 
   return (
-    <div className="border border-dark-accent/25 rounded-md bg-dark-accent/10 shadow-lg mb-10">
+    <div className="border border-dark-accent/25 rounded-md bg-dark-accent/5 shadow-lg mb-10">
       <div className="border border-b-dark-accent/25 text-dark-accent p-5 rounded-t-md text-center">
         <p className="text-lg font-normal uppercase">Résultats</p>
         <p className="text-sm font-normal text-center">
@@ -28,15 +28,15 @@ export const ResultsCard = () => {
       </div>
 
       <div className="p-5 grid grid-cols-3 gap-x-5">
-        <div className="bg-light-shade border border-dark-shade-25 rounded-md shadow-md text-base p-3">
+        <div className="bg-light-shade border border-dark-shade/25 rounded-md shadow-sm text-base p-3">
           <p className="font-medium">{`${drawsNumber * 2.5}€`}</p>
           <p className="uppercase font-normal text-sm">Total dépensé</p>
         </div>
-        <div className="bg-light-shade border border-dark-shade-25 rounded-md shadow-md text-base p-3">
+        <div className="bg-light-shade border border-dark-shade/25 rounded-md shadow-sm text-base p-3">
           <p className="font-medium">{`${winnings}€`}</p>
           <p className="uppercase font-normal text-sm">Gains</p>
         </div>
-        <div className="bg-light-shade border border-dark-shade-25 rounded-md shadow-md text-base p-3">
+        <div className="bg-light-shade border border-dark-shade/25 rounded-md shadow-sm text-base p-3">
           <p className="font-medium">{`${-drawsNumber * 2.5 + winnings}€`}</p>
           <p className="uppercase font-normal text-sm">Balance</p>
         </div>

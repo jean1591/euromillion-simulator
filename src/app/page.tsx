@@ -11,13 +11,10 @@ export default function Home() {
         Simulateur Euromillion
       </h1>
 
-      <div className="pt-16 grid grid-cols-1 md:grid-cols-2 md:gap-20">
+      <div className="pt-16 grid grid-cols-1 md:grid-cols-2 md:gap-5">
         <div>
           <SettingsAndResultsPanel />
-
-          <div className="pt-20">
-            <ResultsCard />
-          </div>
+          <ResultsCard />
         </div>
         <DrawsPanel />
       </div>
