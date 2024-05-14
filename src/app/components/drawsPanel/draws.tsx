@@ -3,10 +3,9 @@ import {
   setSimulationStatus,
 } from "@/lib/features/simulationSettings/slice";
 import {
-  addToWinnings,
+  incrementDrawNumber,
   pushNewDraw,
   pushNewWinnings,
-  setDrawsNumber,
 } from "@/lib/features/simulationResults/slice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -40,10 +39,9 @@ export const Draws = () => {
         const draw = generateDraw();
         const winnings = winningsCalculator(myNumbers, draw);
 
-        dispatch(setDrawsNumber());
+        dispatch(incrementDrawNumber());
 
         if (winnings) {
-          dispatch(addToWinnings(winnings)); // Delete this and use winningsArray ?
           dispatch(pushNewDraw(draw));
           dispatch(pushNewWinnings(winnings));
         }

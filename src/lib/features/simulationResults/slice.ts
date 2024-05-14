@@ -19,16 +19,14 @@ export const simulationResultsSlice = createSlice({
   name: "simulationResults",
   initialState,
   reducers: {
-    addToWinnings: (state, action: PayloadAction<number>) => {
-      state.winnings += action.payload;
-    },
     pushNewDraw: (state, action: PayloadAction<number[]>) => {
       state.draws = [action.payload, ...state.draws];
     },
     pushNewWinnings: (state, action: PayloadAction<number>) => {
+      state.winnings += action.payload;
       state.winningsArray = [action.payload, ...state.winningsArray];
     },
-    setDrawsNumber: (state) => {
+    incrementDrawNumber: (state) => {
       state.drawsNumber += 1;
     },
     resetSimulationResults: (state) => {
@@ -40,11 +38,10 @@ export const simulationResultsSlice = createSlice({
 });
 
 export const {
-  addToWinnings,
+  incrementDrawNumber,
   pushNewDraw,
   pushNewWinnings,
   resetSimulationResults,
-  setDrawsNumber,
 } = simulationResultsSlice.actions;
 
 export default simulationResultsSlice.reducer;
