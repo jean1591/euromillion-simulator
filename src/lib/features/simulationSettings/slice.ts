@@ -36,6 +36,11 @@ export const simulationSettingsSlice = createSlice({
       state.numberOfDraws =
         state.numberOfWeeksToPlay * state.numberOfDrawsPerWeek;
     },
+    addToNumberOfWeeksToPlay: (state, action: PayloadAction<number>) => {
+      state.numberOfWeeksToPlay += action.payload;
+      state.numberOfDraws =
+        state.numberOfWeeksToPlay * state.numberOfDrawsPerWeek;
+    },
     setNumberOfDrawsPerWeek: (state, action: PayloadAction<number>) => {
       state.numberOfDrawsPerWeek = action.payload;
       state.numberOfDraws =
@@ -48,6 +53,7 @@ export const simulationSettingsSlice = createSlice({
 });
 
 export const {
+  addToNumberOfWeeksToPlay,
   setMyNumbers,
   setNumberOfDrawsPerWeek,
   setNumberOfWeeksToPlay,

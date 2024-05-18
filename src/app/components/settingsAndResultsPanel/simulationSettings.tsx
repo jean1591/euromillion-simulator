@@ -1,7 +1,7 @@
 import { MyNumbers } from "./myNumbers";
 import { NumberOfDrawsPerWeek } from "./drawsPerWeek";
-import { NumberOfWeeksToPlay } from "./numberOfWeeksToPlay";
 import { StartAndPauseButton } from "./startAndPauseButton";
+import { WeekSelector } from "./weeksSelector";
 import { classNames } from "@/utils/classNames";
 
 export const SimuationSettings = () => {
@@ -11,9 +11,10 @@ export const SimuationSettings = () => {
         <MyNumbers />
       </SingleSetting>
 
-      <SingleSetting title="Nombre de semaines à jouer">
-        <NumberOfWeeksToPlay />
-      </SingleSetting>
+      <div className="pt-7">
+        <p className="text-base font-medium">Ajouter des semaines</p>
+        <WeekSelector />
+      </div>
 
       <SingleSetting title="2 tirages par semaines">
         <NumberOfDrawsPerWeek />
