@@ -14,7 +14,7 @@ export const SimulationStatus = () => {
 
   useEffect(() => {
     setSimulationPercentage(Math.ceil((drawsNumber / numberOfDraws) * 100));
-  }, [drawsNumber]);
+  }, [drawsNumber, numberOfDraws]);
 
   return (
     <div className="overflow-hidden rounded-full bg-light-shade">

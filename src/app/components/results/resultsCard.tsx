@@ -12,13 +12,8 @@ export const ResultsCard = () => {
   return (
     <div className="border border-dark-accent/25 rounded-md bg-dark-accent/5 shadow-lg mb-10">
       <div className="border border-b-dark-accent/25 text-dark-accent p-5 rounded-t-md text-center">
-        <p className="text-lg font-normal uppercase">Résultats</p>
-        <p className="text-sm font-normal text-center">
-          {`pour ${numberOfDrawsPerWeek} ${
-            numberOfDrawsPerWeek === 1 ? "tirage" : "tirages"
-          } par semaine sur 
-        ${isNaN(numberOfWeeksToPlay) ? 52 : numberOfWeeksToPlay} 
-        semaines`}
+        <p className="text-md font-normal text-center">
+          {`Jouer ${numberOfDrawsPerWeek} tirage(s) par semaine sur ${numberOfWeeksToPlay} semaines`}
         </p>
       </div>
 
@@ -54,7 +49,7 @@ export const ResultsCard = () => {
           </div>
           <div className="bg-light-shade border border-dark-shade/25 rounded-md shadow-sm text-base p-3">
             <p className="font-medium">{`${(
-              (winningsArray.length / numberOfDraws) *
+              (winningsArray.length / (drawsNumber ? drawsNumber : 1)) *
               100
             ).toFixed(2)}%`}</p>
             <p className="uppercase font-normal text-xs">Tirages gagnants</p>

@@ -1,9 +1,15 @@
 import "./globals.css";
 
 import { Inter } from "next/font/google";
+import { Metadata } from "next";
 import { StoreProvider } from "@/lib/storeProvider";
 
 const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "Simulateur Euromillions - Jean Robertou",
+  description: "Simulation de tirages d'Euromillions",
+};
 
 export default function RootLayout({
   children,
