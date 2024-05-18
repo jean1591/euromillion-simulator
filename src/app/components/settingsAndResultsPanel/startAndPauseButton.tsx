@@ -35,7 +35,7 @@ export const StartAndPauseButton = () => {
   return (
     <button
       type="button"
-      className="rounded-md bg-white px-3.5 py-2.5 text-base font-medium text-dark-shade shadow-sm hover:bg-dark-shade/10 w-full border border-dark-shade/20"
+      className="rounded-md px-3.5 py-2.5 text-base font-medium shadow-sm bg-light-shade hover:bg-ship-cove-100/50 w-full border border-ship-cove-200"
       onClick={handleOnClick}
     >
       {message}

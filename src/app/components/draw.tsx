@@ -17,7 +17,7 @@ export const Draw = ({
           key={num}
           className={classNames(
             baseNumbers.includes(num) ? "bg-green-200" : "",
-            "w-7 h-7 md:w-10 md:h-10 rounded-full flex justify-center items-center border border-dark-shade/25"
+            "w-7 h-7 md:w-10 md:h-10 rounded-full flex justify-center items-center border border-ship-cove-500"
           )}
         >
           {num}
@@ -28,8 +28,8 @@ export const Draw = ({
         <p
           key={num}
           className={classNames(
-            starNumbers.includes(num) ? "bg-green-200" : "bg-dark-shade/15 ",
-            "w-7 h-7 md:w-10 md:h-10 rounded-full flex justify-center items-center border border-dark-shade/25"
+            starNumbers.includes(num) ? "bg-green-200" : "bg-ship-cove-100",
+            "w-7 h-7 md:w-10 md:h-10 rounded-full flex justify-center items-center border border-ship-cove-500"
           )}
         >
           {num}

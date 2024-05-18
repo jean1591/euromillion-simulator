@@ -18,7 +18,7 @@ const WeekSelectorButton = ({ value }: { value: number }) => {
   return (
     <button
       type="button"
-      className="w-1/6 text-sm font-medium rounded-md p-2 text-dark-shade shadow-sm hover:bg-dark-shade/10 border border-dark-shade/25"
+      className="w-1/6 text-sm font-medium rounded-md p-2 shadow-sm bg-light-shade hover:bg-ship-cove-100/50 border border-ship-cove-200"
       onClick={() => dispatch(addToNumberOfWeeksToPlay(value))}
     >
       {value}
