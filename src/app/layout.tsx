@@ -3,6 +3,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { Metadata } from "next";
 import { StoreProvider } from "@/lib/storeProvider";
+import { classNames } from "@/utils/classNames";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,11 +20,9 @@ export default function RootLayout({
   return (
     <StoreProvider>
       <html lang="fr">
-        <body className={inter.className}>
-          <div className="bg-ship-cove-100/50 text-calypso-500 min-h-screen">
+        <body className={classNames(inter.className, "bg-ship-cove-100/50 text-calypso-500")}>
             <div className="pt-8 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-16">
               {children}
-            </div>
           </div>
         </body>
       </html>

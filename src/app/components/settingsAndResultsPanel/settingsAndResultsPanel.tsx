@@ -3,7 +3,7 @@ import { SimuationSettings } from "./simulationSettings";
 
 export const SettingsAndResultsPanel = () => {
   return (
-    <Panel height="h-80">
+    <Panel>
       <SimuationSettings />
     </Panel>
   );

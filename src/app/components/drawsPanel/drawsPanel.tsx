@@ -3,8 +3,8 @@ import { Panel } from "../panel";
 
 export const DrawsPanel = () => {
   return (
-    <Panel>
-      <p className="text-base font-medium text-left pb-5">Tirages gagnants</p>
+    <Panel height="h-3/5">
+      <p className="text-base font-medium text-left">Tirages gagnants</p>
       <div className="flex justify-center">
         <div>
           <Draws />
