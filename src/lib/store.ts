@@ -1,6 +1,10 @@
 import { create } from "zustand";
 import { generateDraw } from "@/utils/generateDraw";
 
+// Rendered as-is on the server so the first paint matches the hydrated
+// markup; randomiseMyNumbers replaces it once the client has taken over.
+export const DEFAULT_MY_NUMBERS = [7, 14, 21, 28, 35, 3, 9];
+
 export enum SimulationStatus {
   Idle = "idle",
   Paused = "paused",
@@ -20,6 +24,7 @@ interface SimulationState {
   winningsArray: number[];
 
   setMyNumbers: (myNumbers: number[]) => void;
+  randomiseMyNumbers: () => void;
   setNumberOfWeeksToPlay: (numberOfWeeksToPlay: number) => void;
   addToNumberOfWeeksToPlay: (weeks: number) => void;
   setNumberOfDrawsPerWeek: (numberOfDrawsPerWeek: number) => void;
@@ -36,7 +41,7 @@ const emptyResults = {
 };
 
 export const useSimulationStore = create<SimulationState>()((set) => ({
-  myNumbers: generateDraw(),
+  myNumbers: DEFAULT_MY_NUMBERS,
   numberOfDraws: 104,
   numberOfDrawsPerWeek: 2,
   numberOfWeeksToPlay: 52,
@@ -44,6 +49,8 @@ export const useSimulationStore = create<SimulationState>()((set) => ({
   ...emptyResults,
 
   setMyNumbers: (myNumbers) => set({ myNumbers }),
+
+  randomiseMyNumbers: () => set({ myNumbers: generateDraw() }),
 
   setNumberOfWeeksToPlay: (numberOfWeeksToPlay) =>
     set((state) => ({

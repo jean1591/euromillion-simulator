@@ -1,13 +1,11 @@
 import { SimulationStatus, useSimulationStore } from "@/lib/store";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { DrawAndWinnings } from "./drawsAndWinnings";
 import { generateDraw } from "@/utils/generateDraw";
 import { winningsCalculator } from "@/utils/winningsCalculator";
 
 export const Draws = () => {
-  const [isClient, setIsClient] = useState<boolean>(false);
-
   const myNumbers = useSimulationStore((state) => state.myNumbers);
   const numberOfDraws = useSimulationStore((state) => state.numberOfDraws);
   const simulationStatus = useSimulationStore(
@@ -20,10 +18,6 @@ export const Draws = () => {
   const setSimulationStatus = useSimulationStore(
     (state) => state.setSimulationStatus
   );
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   useEffect(() => {
     if (
@@ -48,22 +42,14 @@ export const Draws = () => {
 
   return (
     <>
-      {isClient ? (
-        <>
-          {draws.map((draw, index) => {
-            return (
-              <DrawAndWinnings
-                key={draw.join()}
-                myNumbers={myNumbers}
-                draw={draw}
-                winnings={winningsArray[index]}
-              />
-            );
-          })}
-        </>
-      ) : (
-        <></>
-      )}
+      {draws.map((draw, index) => (
+        <DrawAndWinnings
+          key={draw.join()}
+          myNumbers={myNumbers}
+          draw={draw}
+          winnings={winningsArray[index]}
+        />
+      ))}
     </>
   );
 };

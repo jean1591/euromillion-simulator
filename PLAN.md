@@ -86,7 +86,7 @@ Lecture : la visibilité est acquise, le CTR ne suit pas. La famille
   - deux tuiles intitulées « Gains » dans `resultsCard.tsx` (montant et pourcentage)
   - boules rendues en `<p>` sans rôle ni libellé des numéros gagnants (`draw.tsx`)
 
-- [ ] **6. `fix: stabilise the first render`**
+- [x] **6. `fix: stabilise the first render`**
   - remplacer les gardes `isClient` (`myNumbers.tsx:19`, `draws.tsx:57`) par un état
     initial déterministe — elles vident le premier rendu et provoquent un saut de mise en page
   - retirer l'`overflow-y-scroll` permanent du `Panel`
