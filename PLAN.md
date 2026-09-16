@@ -124,7 +124,7 @@ Lecture : la visibilité est acquise, le CTR ne suit pas. La famille
   - resserrer le titre : le suffixe `- Jean Robertou` consomme des pixels pour un CTR à 0,72 %
   - image OG dédiée (`public/hero-profile.png` vient du portfolio)
 
-- [ ] **13. `feat(seo): prize tiers, winnings and odds section`**
+- [x] **13. `feat(seo): prize tiers, winnings and odds section`**
   - la table existe dans `winningsCalculator.ts:16` mais n'est révélée qu'au compte-gouttes
     pendant une simulation, et seulement pour les tirages gagnants
   - l'extraire en donnée partagée, la rendre côté serveur sous le simulateur

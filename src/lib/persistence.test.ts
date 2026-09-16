@@ -10,7 +10,7 @@ const memoryStorage = () => {
     },
     clear: () => entries.clear(),
     getItem: (key: string) => entries.get(key) ?? null,
-    key: (index: number) => [...entries.keys()][index] ?? null,
+    key: (index: number) => Array.from(entries.keys())[index] ?? null,
     removeItem: (key: string) => {
       entries.delete(key);
     },

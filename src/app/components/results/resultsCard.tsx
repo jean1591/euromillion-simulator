@@ -1,4 +1,5 @@
 import { SimulationStatus } from "../settingsAndResultsPanel/simulationStatus";
+import { TICKET_PRICE } from "@/utils/prizeTiers";
 import { useSimulationStore } from "@/lib/store";
 
 export const ResultsCard = () => {
@@ -28,7 +29,7 @@ export const ResultsCard = () => {
 
         <div className="pt-5 grid grid-cols-3 gap-3">
           <div className="bg-light-shade border border-ship-cove-200 rounded-md shadow-sm text-base p-3">
-            <p className="font-medium">{`${drawsNumber * 2.5}€`}</p>
+            <p className="font-medium">{`${drawsNumber * TICKET_PRICE}€`}</p>
             <p className="uppercase font-normal text-xs">Total dépensé</p>
           </div>
           <div className="bg-light-shade border border-ship-cove-200 rounded-md shadow-sm text-base p-3">
@@ -36,7 +37,7 @@ export const ResultsCard = () => {
             <p className="uppercase font-normal text-xs">Gains</p>
           </div>
           <div className="bg-light-shade border border-ship-cove-200 rounded-md shadow-sm text-base p-3">
-            <p className="font-medium">{`${-drawsNumber * 2.5 + winnings}€`}</p>
+            <p className="font-medium">{`${-drawsNumber * TICKET_PRICE + winnings}€`}</p>
             <p className="uppercase font-normal text-xs">Résultat</p>
           </div>
 
@@ -46,7 +47,7 @@ export const ResultsCard = () => {
           </div>
           <div className="bg-light-shade border border-ship-cove-200 rounded-md shadow-sm text-base p-3">
             <p className="font-medium">{`${(drawsNumber
-              ? (winnings / (drawsNumber * 2.5)) * 100
+              ? (winnings / (drawsNumber * TICKET_PRICE)) * 100
               : 0
             ).toFixed(2)}%`}</p>
             <p className="uppercase font-normal text-xs">Taux de retour</p>
