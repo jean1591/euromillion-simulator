@@ -1,30 +1,25 @@
-import {
-  SimulationStatus,
-  setSimulationStatus,
-} from "@/lib/features/simulationSettings/slice";
-import {
-  incrementDrawNumber,
-  pushNewDraw,
-  pushNewWinnings,
-} from "@/lib/features/simulationResults/slice";
-import { useDispatch, useSelector } from "react-redux";
+import { SimulationStatus, useSimulationStore } from "@/lib/store";
 import { useEffect, useState } from "react";
 
 import { DrawAndWinnings } from "./drawsAndWinnings";
-import { RootState } from "@/lib/store";
 import { generateDraw } from "@/utils/generateDraw";
 import { winningsCalculator } from "@/utils/winningsCalculator";
 
 export const Draws = () => {
   const [isClient, setIsClient] = useState<boolean>(false);
 
-  const { myNumbers, numberOfDraws, simulationStatus } = useSelector(
-    (state: RootState) => state.simulationSettings
+  const myNumbers = useSimulationStore((state) => state.myNumbers);
+  const numberOfDraws = useSimulationStore((state) => state.numberOfDraws);
+  const simulationStatus = useSimulationStore(
+    (state) => state.simulationStatus
   );
-  const { draws, drawsNumber, winningsArray } = useSelector(
-    (state: RootState) => state.simulationResults
+  const draws = useSimulationStore((state) => state.draws);
+  const drawsNumber = useSimulationStore((state) => state.drawsNumber);
+  const winningsArray = useSimulationStore((state) => state.winningsArray);
+  const recordDraw = useSimulationStore((state) => state.recordDraw);
+  const setSimulationStatus = useSimulationStore(
+    (state) => state.setSimulationStatus
   );
-  const dispatch = useDispatch();
 
   useEffect(() => {
     setIsClient(true);
@@ -37,25 +32,19 @@ export const Draws = () => {
     ) {
       const intervalId = setInterval(() => {
         const draw = generateDraw();
-        const winnings = winningsCalculator(myNumbers, draw);
 
-        dispatch(incrementDrawNumber());
-
-        if (winnings) {
-          dispatch(pushNewDraw(draw));
-          dispatch(pushNewWinnings(winnings));
-        }
+        recordDraw(draw, winningsCalculator(myNumbers, draw));
       }, 25);
 
       return () => clearInterval(intervalId);
     }
-  }, [simulationStatus, drawsNumber]);
+  }, [simulationStatus, drawsNumber, numberOfDraws, myNumbers, recordDraw]);
 
   useEffect(() => {
     if (drawsNumber === numberOfDraws) {
-      dispatch(setSimulationStatus(SimulationStatus.Idle));
+      setSimulationStatus(SimulationStatus.Idle);
     }
-  }, [drawsNumber]);
+  }, [drawsNumber, numberOfDraws, setSimulationStatus]);
 
   return (
     <>

@@ -1,14 +1,16 @@
-import { RootState } from "@/lib/store";
 import { SimulationStatus } from "../settingsAndResultsPanel/simulationStatus";
-import { useSelector } from "react-redux";
+import { useSimulationStore } from "@/lib/store";
 
 export const ResultsCard = () => {
-  const { numberOfDrawsPerWeek, numberOfWeeksToPlay } = useSelector(
-    (state: RootState) => state.simulationSettings
+  const numberOfDrawsPerWeek = useSimulationStore(
+    (state) => state.numberOfDrawsPerWeek
   );
-  const { drawsNumber, winnings, winningsArray } = useSelector(
-    (state: RootState) => state.simulationResults
+  const numberOfWeeksToPlay = useSimulationStore(
+    (state) => state.numberOfWeeksToPlay
   );
+  const drawsNumber = useSimulationStore((state) => state.drawsNumber);
+  const winnings = useSimulationStore((state) => state.winnings);
+  const winningsArray = useSimulationStore((state) => state.winningsArray);
 
   return (
     <div className="rounded-md bg-ship-cove-500 shadow-lg mb-10">

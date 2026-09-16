@@ -1,6 +1,7 @@
 # Refonte SEO / UX — plan de suivi
 
 Branche : `feat/seo-ux-overhaul` → PR unique vers `main`.
+Les messages de commit sont rédigés en anglais.
 Document de travail : à mettre à jour à chaque commit, à supprimer à la fusion de la PR.
 
 ## Contexte
@@ -50,7 +51,7 @@ Lecture : la visibilité est acquise, le CTR ne suit pas. La famille
 
 ### Socle
 
-- [x] **1. `chore: nettoyage du projet`**
+- [x] **1. `chore: clean up the project`**
   - supprimer `tailwind.config.ts` (doublon, `theme.extend` vide, `content` divergent de `.js`)
   - supprimer `src/app/Home.module.css` (importé nulle part)
   - supprimer `src/.DS_Store` et `public/.DS_Store`, les ajouter au `.gitignore`
@@ -58,7 +59,7 @@ Lecture : la visibilité est acquise, le CTR ne suit pas. La famille
   - corriger la typo `SimuationSettings` (`simulationSettings.tsx:7`)
   - retirer le `console.log("Reseting simulation")` (`startAndPauseButton.tsx:26`)
 
-- [x] **2. `fix: réinitialisation de la simulation`**
+- [x] **2. `fix: reset the simulation when it is restarted`**
   - `startAndPauseButton.tsx:27` : `resetSimulationResults()` appelé sans `dispatch` → no-op.
     Conséquence : après une simulation terminée, le bouton ne fait plus rien, le statut
     retombe aussitôt en `Idle` via `draws.tsx:56`
@@ -66,61 +67,61 @@ Lecture : la visibilité est acquise, le CTR ne suit pas. La famille
     « Plus gros gain » et « Tirages gagnants »
   - à faire avant la migration Zustand pour garder un diff lisible
 
-- [ ] **3. `refactor: remplace Redux par Zustand`**
+- [x] **3. `refactor: replace Redux with Zustand`**
   - supprimer `src/lib/store.ts`, `src/lib/storeProvider.tsx`, les deux slices
   - retirer `@reduxjs/toolkit` et `react-redux`
   - absorbe le double état de `drawsPerWeek.tsx` (`useState` local en parallèle du store)
   - absorbe les dépendances `useEffect` manquantes (`drawsPerWeek.tsx:16`, `draws.tsx:50`)
 
-- [ ] **4. `test: couvre generateDraw et winningsCalculator`**
+- [ ] **4. `test: cover generateDraw and winningsCalculator`**
   - ajouter Vitest (aucune infra de test aujourd'hui)
   - épingle la logique de gains avant de l'exposer en contenu au commit 13
 
 ### UX
 
-- [ ] **5. `fix: libellés et accessibilité`**
+- [ ] **5. `fix: labels and accessibility`**
   - libellé `2 tirages par semaines` statique alors que le switch bascule 1↔2,
     plus la faute d'accord (`simulationSettings.tsx:20`)
   - `Switch.Label` manquant (`drawsPerWeek.tsx`)
   - deux tuiles intitulées « Gains » dans `resultsCard.tsx` (montant et pourcentage)
   - boules rendues en `<p>` sans rôle ni libellé des numéros gagnants (`draw.tsx`)
 
-- [ ] **6. `fix: stabilise le premier rendu`**
+- [ ] **6. `fix: stabilise the first render`**
   - remplacer les gardes `isClient` (`myNumbers.tsx:19`, `draws.tsx:57`) par un état
     initial déterministe — elles vident le premier rendu et provoquent un saut de mise en page
   - retirer l'`overflow-y-scroll` permanent du `Panel`
 
-- [ ] **7. `feat: saisie de ses propres numéros`**
+- [ ] **7. `feat: let users pick their own numbers`**
   - `myNumbers.tsx` n'affiche qu'un tirage aléatoire en lecture seule
 
-- [ ] **8. `feat: contrôle de la simulation`**
+- [ ] **8. `feat: simulation controls`**
   - cadence fixe à 25 ms/tirage (`draws.tsx:47`) → ≈21 s pour 208 semaines :
     vitesse réglable et saut au résultat
   - `weeksSelector.tsx:7` : boutons cumulatifs uniquement, ni retrait ni remise à zéro,
     total courant non affiché à côté
 
-- [ ] **9. `perf: virtualise la liste des tirages`**
+- [ ] **9. `perf: virtualise the draw list`**
   - la liste grossit sans borne et se re-rend intégralement à chaque tirage
 
-- [ ] **10. `feat: persiste la simulation`**
+- [ ] **10. `feat: persist the simulation`**
   - middleware `persist` de Zustand, direct une fois le commit 3 fait
   - aujourd'hui un rechargement perd tout et régénère des numéros
 
 ### SEO
 
-- [ ] **11. `fix(seo): sitemap et robots sur le bon domaine`**
+- [ ] **11. `fix(seo): sitemap and robots on the right domain`**
   - `public/sitemap.xml` liste `https://www.jeanrobertou.com/`, pas l'URL du simulateur
   - `public/robots.txt` pointe vers le sitemap du mauvais domaine
   - passer en `sitemap.ts` / `robots.ts`
   - hygiène, pas un blocage : la page est déjà indexée
 
-- [ ] **12. `feat(seo): metadata complète`**
+- [ ] **12. `feat(seo): complete metadata`**
   - `layout.tsx:11` réduit à `title` + `description`
   - ajouter `metadataBase`, canonical, Open Graph, Twitter
   - resserrer le titre : le suffixe `- Jean Robertou` consomme des pixels pour un CTR à 0,72 %
   - image OG dédiée (`public/hero-profile.png` vient du portfolio)
 
-- [ ] **13. `feat(seo): section rangs, gains et probabilités`**
+- [ ] **13. `feat(seo): prize tiers, winnings and odds section`**
   - la table existe dans `winningsCalculator.ts:16` mais n'est révélée qu'au compte-gouttes
     pendant une simulation, et seulement pour les tirages gagnants
   - l'extraire en donnée partagée, la rendre côté serveur sous le simulateur
@@ -128,7 +129,7 @@ Lecture : la visibilité est acquise, le CTR ne suit pas. La famille
   - sortir le prix du ticket `2.5`, codé en dur deux fois dans `resultsCard.tsx`
   - cible la famille « calcul gain euromillions », aujourd'hui en position 23 à 66
 
-- [ ] **14. `feat(seo): FAQ et JSON-LD`**
+- [ ] **14. `feat(seo): FAQ and JSON-LD`**
   - `WebApplication` + `FAQPage`
 
 ### Mesure

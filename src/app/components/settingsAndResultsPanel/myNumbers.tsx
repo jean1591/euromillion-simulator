@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { Draw } from "../draw";
-import { RootState } from "@/lib/store";
-import { useSelector } from "react-redux";
+import { useSimulationStore } from "@/lib/store";
 
 export const MyNumbers = () => {
   const [isClient, setIsClient] = useState<boolean>(false);
@@ -11,9 +10,7 @@ export const MyNumbers = () => {
     setIsClient(true);
   }, []);
 
-  const myNumbers = useSelector(
-    (state: RootState) => state.simulationSettings.myNumbers
-  );
+  const myNumbers = useSimulationStore((state) => state.myNumbers);
 
   return (
     <>

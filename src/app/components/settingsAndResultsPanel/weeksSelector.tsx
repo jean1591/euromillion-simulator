@@ -1,5 +1,4 @@
-import { addToNumberOfWeeksToPlay } from "@/lib/features/simulationSettings/slice";
-import { useDispatch } from "react-redux";
+import { useSimulationStore } from "@/lib/store";
 
 export const WeekSelector = () => {
   return (
@@ -13,13 +12,15 @@ export const WeekSelector = () => {
 };
 
 const WeekSelectorButton = ({ value }: { value: number }) => {
-  const dispatch = useDispatch();
+  const addToNumberOfWeeksToPlay = useSimulationStore(
+    (state) => state.addToNumberOfWeeksToPlay
+  );
 
   return (
     <button
       type="button"
       className="w-1/6 text-sm font-medium rounded-md p-2 shadow-sm bg-light-shade hover:bg-ship-cove-100/50 border border-ship-cove-200"
-      onClick={() => dispatch(addToNumberOfWeeksToPlay(value))}
+      onClick={() => addToNumberOfWeeksToPlay(value)}
     >
       {value}
     </button>
