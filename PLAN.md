@@ -73,7 +73,7 @@ Lecture : la visibilité est acquise, le CTR ne suit pas. La famille
   - absorbe le double état de `drawsPerWeek.tsx` (`useState` local en parallèle du store)
   - absorbe les dépendances `useEffect` manquantes (`drawsPerWeek.tsx:16`, `draws.tsx:50`)
 
-- [ ] **4. `test: cover generateDraw and winningsCalculator`**
+- [x] **4. `test: cover generateDraw and winningsCalculator`**
   - ajouter Vitest (aucune infra de test aujourd'hui)
   - épingle la logique de gains avant de l'exposer en contenu au commit 13
 
