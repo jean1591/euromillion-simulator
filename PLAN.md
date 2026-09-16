@@ -112,7 +112,7 @@ Lecture : la visibilité est acquise, le CTR ne suit pas. La famille
 
 ### SEO
 
-- [ ] **11. `fix(seo): sitemap and robots on the right domain`**
+- [x] **11. `fix(seo): sitemap and robots on the right domain`**
   - `public/sitemap.xml` liste `https://www.jeanrobertou.com/`, pas l'URL du simulateur
   - `public/robots.txt` pointe vers le sitemap du mauvais domaine
   - passer en `sitemap.ts` / `robots.ts`
