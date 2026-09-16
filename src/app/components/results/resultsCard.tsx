@@ -10,7 +10,10 @@ export const ResultsCard = () => {
   );
   const drawsNumber = useSimulationStore((state) => state.drawsNumber);
   const winnings = useSimulationStore((state) => state.winnings);
-  const winningsArray = useSimulationStore((state) => state.winningsArray);
+  const winningDrawsCount = useSimulationStore(
+    (state) => state.winningDrawsCount
+  );
+  const biggestWin = useSimulationStore((state) => state.biggestWin);
 
   return (
     <div className="rounded-md bg-ship-cove-500 shadow-lg mb-10">
@@ -38,13 +41,11 @@ export const ResultsCard = () => {
           </div>
 
           <div className="bg-light-shade border border-ship-cove-200 rounded-md shadow-sm text-base p-3">
-            <p className="font-medium">{`${
-              winningsArray.length ? Math.max(...winningsArray) : 0
-            }€`}</p>
+            <p className="font-medium">{`${biggestWin}€`}</p>
             <p className="uppercase font-normal text-xs">Plus gros gain</p>
           </div>
           <div className="bg-light-shade border border-ship-cove-200 rounded-md shadow-sm text-base p-3">
-            <p className="font-medium">{`${(winningsArray.length
+            <p className="font-medium">{`${(drawsNumber
               ? (winnings / (drawsNumber * 2.5)) * 100
               : 0
             ).toFixed(2)}%`}</p>
@@ -52,7 +53,7 @@ export const ResultsCard = () => {
           </div>
           <div className="bg-light-shade border border-ship-cove-200 rounded-md shadow-sm text-base p-3">
             <p className="font-medium">{`${(
-              (winningsArray.length / (drawsNumber ? drawsNumber : 1)) *
+              (winningDrawsCount / (drawsNumber ? drawsNumber : 1)) *
               100
             ).toFixed(2)}%`}</p>
             <p className="uppercase font-normal text-xs">Tirages gagnants</p>

@@ -14,6 +14,18 @@ export const DEFAULT_DRAWS_PER_WEEK = 2;
 export const SPEEDS = [1, 10, 100] as const;
 export const TICK_INTERVAL_MS = 25;
 
+// Only the most recent winning draws are kept. Everything the results
+// card reports is aggregated as it goes, so the list never has to grow
+// with the length of the simulation.
+export const MAX_RECENT_WINNING_DRAWS = 100;
+
+export interface WinningDraw {
+  // The draw's rank in the simulation, unique and stable, used as a key.
+  id: number;
+  draw: number[];
+  winnings: number;
+}
+
 export enum SimulationStatus {
   Idle = "idle",
   Paused = "paused",
@@ -28,10 +40,11 @@ interface SimulationState {
   simulationStatus: SimulationStatus;
   speed: number;
 
-  draws: number[][];
   drawsNumber: number;
+  recentWinningDraws: WinningDraw[];
+  winningDrawsCount: number;
   winnings: number;
-  winningsArray: number[];
+  biggestWin: number;
 
   setMyNumbers: (myNumbers: number[]) => void;
   randomiseMyNumbers: () => void;
@@ -47,10 +60,11 @@ interface SimulationState {
 }
 
 const emptyResults = {
-  draws: [] as number[][],
   drawsNumber: 0,
+  recentWinningDraws: [] as WinningDraw[],
+  winningDrawsCount: 0,
   winnings: 0,
-  winningsArray: [] as number[],
+  biggestWin: 0,
 };
 
 export const useSimulationStore = create<SimulationState>()((set) => ({
@@ -110,26 +124,35 @@ export const useSimulationStore = create<SimulationState>()((set) => ({
         return {};
       }
 
-      const winningDraws: number[][] = [];
-      const winningAmounts: number[] = [];
+      const winningDraws: WinningDraw[] = [];
       let winnings = 0;
+      let biggestWin = state.biggestWin;
 
       for (let index = 0; index < drawsToRun; index++) {
         const draw = generateDraw();
         const amount = winningsCalculator(state.myNumbers, draw);
 
         if (amount) {
-          winningDraws.unshift(draw);
-          winningAmounts.unshift(amount);
+          // Most recent first, matching the order the panel reads in.
+          winningDraws.unshift({
+            id: state.drawsNumber + index + 1,
+            draw,
+            winnings: amount,
+          });
           winnings += amount;
+          biggestWin = Math.max(biggestWin, amount);
         }
       }
 
       return {
         drawsNumber: state.drawsNumber + drawsToRun,
-        draws: [...winningDraws, ...state.draws],
+        recentWinningDraws: [
+          ...winningDraws,
+          ...state.recentWinningDraws,
+        ].slice(0, MAX_RECENT_WINNING_DRAWS),
+        winningDrawsCount: state.winningDrawsCount + winningDraws.length,
         winnings: state.winnings + winnings,
-        winningsArray: [...winningAmounts, ...state.winningsArray],
+        biggestWin,
       };
     }),
 

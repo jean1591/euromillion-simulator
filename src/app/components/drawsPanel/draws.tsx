@@ -14,9 +14,10 @@ export const Draws = () => {
     (state) => state.simulationStatus
   );
   const speed = useSimulationStore((state) => state.speed);
-  const draws = useSimulationStore((state) => state.draws);
+  const recentWinningDraws = useSimulationStore(
+    (state) => state.recentWinningDraws
+  );
   const drawsNumber = useSimulationStore((state) => state.drawsNumber);
-  const winningsArray = useSimulationStore((state) => state.winningsArray);
   const runDraws = useSimulationStore((state) => state.runDraws);
   const setSimulationStatus = useSimulationStore(
     (state) => state.setSimulationStatus
@@ -45,12 +46,12 @@ export const Draws = () => {
 
   return (
     <>
-      {draws.map((draw, index) => (
+      {recentWinningDraws.map((winningDraw) => (
         <DrawAndWinnings
-          key={draw.join()}
+          key={winningDraw.id}
           myNumbers={myNumbers}
-          draw={draw}
-          winnings={winningsArray[index]}
+          draw={winningDraw.draw}
+          winnings={winningDraw.winnings}
         />
       ))}
     </>

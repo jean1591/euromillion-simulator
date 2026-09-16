@@ -100,8 +100,11 @@ Lecture : la visibilité est acquise, le CTR ne suit pas. La famille
   - `weeksSelector.tsx:7` : boutons cumulatifs uniquement, ni retrait ni remise à zéro,
     total courant non affiché à côté
 
-- [ ] **9. `perf: virtualise the draw list`**
-  - la liste grossit sans borne et se re-rend intégralement à chaque tirage
+- [x] **9. `perf: cap the draw list`**
+  - la liste grossissait sans borne et se re-rendait intégralement à chaque tirage
+  - plafonnée aux 100 derniers tirages gagnants plutôt que virtualisée :
+    les agrégats sont calculés au fil de l'eau, donc la mémoire est bornée
+    et aucune dépendance n'est ajoutée
 
 - [ ] **10. `feat: persist the simulation`**
   - middleware `persist` de Zustand, direct une fois le commit 3 fait
