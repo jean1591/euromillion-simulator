@@ -4,15 +4,21 @@ export const StartAndPauseButton = () => {
   const simulationStatus = useSimulationStore(
     (state) => state.simulationStatus
   );
+  const drawsNumber = useSimulationStore((state) => state.drawsNumber);
+  const numberOfDraws = useSimulationStore((state) => state.numberOfDraws);
   const setSimulationStatus = useSimulationStore(
     (state) => state.setSimulationStatus
   );
   const resetSimulationResults = useSimulationStore(
     (state) => state.resetSimulationResults
   );
+  const skipToEnd = useSimulationStore((state) => state.skipToEnd);
+
+  const isIdle = simulationStatus === SimulationStatus.Idle;
+  const hasDrawsLeft = drawsNumber < numberOfDraws;
 
   const handleOnClick = () => {
-    if (simulationStatus === SimulationStatus.Idle) {
+    if (isIdle) {
       resetSimulationResults();
     }
 
@@ -20,13 +26,25 @@ export const StartAndPauseButton = () => {
   };
 
   return (
-    <button
-      type="button"
-      className="rounded-md px-3.5 py-2.5 text-base font-medium shadow-sm bg-light-shade hover:bg-ship-cove-100/50 w-full border border-ship-cove-200"
-      onClick={handleOnClick}
-    >
-      {simulationStatusToMessage[simulationStatus]}
-    </button>
+    <div className="flex items-center gap-x-2">
+      <button
+        type="button"
+        onClick={handleOnClick}
+        className="flex-1 rounded-md border border-ship-cove-200 bg-light-shade px-3.5 py-2.5 text-base font-medium shadow-sm hover:bg-ship-cove-100/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-calypso-500"
+      >
+        {simulationStatusToMessage[simulationStatus]}
+      </button>
+
+      <button
+        type="button"
+        onClick={skipToEnd}
+        disabled={isIdle || !hasDrawsLeft}
+        title="Résoudre les tirages restants immédiatement"
+        className="rounded-md px-3.5 py-2.5 text-base font-medium text-calypso-500 hover:bg-ship-cove-100 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-calypso-500"
+      >
+        Terminer
+      </button>
+    </div>
   );
 };
 

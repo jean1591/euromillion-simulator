@@ -94,7 +94,7 @@ Lecture : la visibilité est acquise, le CTR ne suit pas. La famille
 - [x] **7. `feat: let users pick their own numbers`**
   - `myNumbers.tsx` n'affiche qu'un tirage aléatoire en lecture seule
 
-- [ ] **8. `feat: simulation controls`**
+- [x] **8. `feat: simulation controls`**
   - cadence fixe à 25 ms/tirage (`draws.tsx:47`) → ≈21 s pour 208 semaines :
     vitesse réglable et saut au résultat
   - `weeksSelector.tsx:7` : boutons cumulatifs uniquement, ni retrait ni remise à zéro,

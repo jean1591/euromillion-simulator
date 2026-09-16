@@ -1,9 +1,18 @@
 import { create } from "zustand";
 import { generateDraw } from "@/utils/generateDraw";
+import { winningsCalculator } from "@/utils/winningsCalculator";
 
 // Rendered as-is on the server so the first paint matches the hydrated
 // markup; randomiseMyNumbers replaces it once the client has taken over.
 export const DEFAULT_MY_NUMBERS = [7, 14, 21, 28, 35, 3, 9];
+
+export const DEFAULT_WEEKS_TO_PLAY = 52;
+export const DEFAULT_DRAWS_PER_WEEK = 2;
+
+// Draws resolved per tick. One tick every TICK_INTERVAL_MS, so the
+// simulation reads as an animation at speed 1 and as a fast-forward above.
+export const SPEEDS = [1, 10, 100] as const;
+export const TICK_INTERVAL_MS = 25;
 
 export enum SimulationStatus {
   Idle = "idle",
@@ -17,6 +26,7 @@ interface SimulationState {
   numberOfDrawsPerWeek: number;
   numberOfWeeksToPlay: number;
   simulationStatus: SimulationStatus;
+  speed: number;
 
   draws: number[][];
   drawsNumber: number;
@@ -28,8 +38,11 @@ interface SimulationState {
   setNumberOfWeeksToPlay: (numberOfWeeksToPlay: number) => void;
   addToNumberOfWeeksToPlay: (weeks: number) => void;
   setNumberOfDrawsPerWeek: (numberOfDrawsPerWeek: number) => void;
+  resetNumberOfWeeksToPlay: () => void;
   setSimulationStatus: (simulationStatus: SimulationStatus) => void;
-  recordDraw: (draw: number[], winnings: number) => void;
+  setSpeed: (speed: number) => void;
+  runDraws: (count: number) => void;
+  skipToEnd: () => void;
   resetSimulationResults: () => void;
 }
 
@@ -42,10 +55,11 @@ const emptyResults = {
 
 export const useSimulationStore = create<SimulationState>()((set) => ({
   myNumbers: DEFAULT_MY_NUMBERS,
-  numberOfDraws: 104,
-  numberOfDrawsPerWeek: 2,
-  numberOfWeeksToPlay: 52,
+  numberOfDraws: DEFAULT_WEEKS_TO_PLAY * DEFAULT_DRAWS_PER_WEEK,
+  numberOfDrawsPerWeek: DEFAULT_DRAWS_PER_WEEK,
+  numberOfWeeksToPlay: DEFAULT_WEEKS_TO_PLAY,
   simulationStatus: SimulationStatus.Idle,
+  speed: SPEEDS[0],
   ...emptyResults,
 
   // Results computed against another grid no longer describe this one.
@@ -69,6 +83,12 @@ export const useSimulationStore = create<SimulationState>()((set) => ({
       };
     }),
 
+  resetNumberOfWeeksToPlay: () =>
+    set((state) => ({
+      numberOfWeeksToPlay: DEFAULT_WEEKS_TO_PLAY,
+      numberOfDraws: DEFAULT_WEEKS_TO_PLAY * state.numberOfDrawsPerWeek,
+    })),
+
   setNumberOfDrawsPerWeek: (numberOfDrawsPerWeek) =>
     set((state) => ({
       numberOfDrawsPerWeek,
@@ -77,17 +97,48 @@ export const useSimulationStore = create<SimulationState>()((set) => ({
 
   setSimulationStatus: (simulationStatus) => set({ simulationStatus }),
 
-  recordDraw: (draw, winnings) =>
-    set((state) =>
-      winnings
-        ? {
-            drawsNumber: state.drawsNumber + 1,
-            draws: [draw, ...state.draws],
-            winnings: state.winnings + winnings,
-            winningsArray: [winnings, ...state.winningsArray],
-          }
-        : { drawsNumber: state.drawsNumber + 1 }
-    ),
+  setSpeed: (speed) => set({ speed }),
+
+  // Resolves up to `count` draws in a single update. Batching matters:
+  // at speed 100 the per-draw version would have queued 100 renders for
+  // one frame's worth of simulation.
+  runDraws: (count) =>
+    set((state) => {
+      const drawsToRun = Math.min(count, state.numberOfDraws - state.drawsNumber);
+
+      if (drawsToRun <= 0) {
+        return {};
+      }
+
+      const winningDraws: number[][] = [];
+      const winningAmounts: number[] = [];
+      let winnings = 0;
+
+      for (let index = 0; index < drawsToRun; index++) {
+        const draw = generateDraw();
+        const amount = winningsCalculator(state.myNumbers, draw);
+
+        if (amount) {
+          winningDraws.unshift(draw);
+          winningAmounts.unshift(amount);
+          winnings += amount;
+        }
+      }
+
+      return {
+        drawsNumber: state.drawsNumber + drawsToRun,
+        draws: [...winningDraws, ...state.draws],
+        winnings: state.winnings + winnings,
+        winningsArray: [...winningAmounts, ...state.winningsArray],
+      };
+    }),
+
+  skipToEnd: () => {
+    const { numberOfDraws, drawsNumber, runDraws } = useSimulationStore.getState();
+
+    runDraws(numberOfDraws - drawsNumber);
+    set({ simulationStatus: SimulationStatus.Idle });
+  },
 
   resetSimulationResults: () => set({ ...emptyResults }),
 }));
