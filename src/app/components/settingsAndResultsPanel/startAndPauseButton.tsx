@@ -23,7 +23,6 @@ export const StartAndPauseButton = () => {
 
   const handleOnClick = () => {
     if (simulationStatus === SimulationStatus.Idle) {
-      console.log("Reseting simulation");
       resetSimulationResults();
     }
 

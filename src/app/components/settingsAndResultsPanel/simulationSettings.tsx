@@ -4,7 +4,7 @@ import { StartAndPauseButton } from "./startAndPauseButton";
 import { WeekSelector } from "./weeksSelector";
 import { classNames } from "@/utils/classNames";
 
-export const SimuationSettings = () => {
+export const SimulationSettings = () => {
   return (
     <div>
       <SingleSetting title="Vos numéros" paddingTop={false}>

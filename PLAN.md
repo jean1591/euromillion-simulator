@@ -50,7 +50,7 @@ Lecture : la visibilité est acquise, le CTR ne suit pas. La famille
 
 ### Socle
 
-- [ ] **1. `chore: nettoyage du projet`**
+- [x] **1. `chore: nettoyage du projet`**
   - supprimer `tailwind.config.ts` (doublon, `theme.extend` vide, `content` divergent de `.js`)
   - supprimer `src/app/Home.module.css` (importé nulle part)
   - supprimer `src/.DS_Store` et `public/.DS_Store`, les ajouter au `.gitignore`
