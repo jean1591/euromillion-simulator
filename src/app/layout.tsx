@@ -1,15 +1,45 @@
 import "./globals.css";
 
+import { Analytics } from "@vercel/analytics/react";
 import { Inter } from "next/font/google";
 import { Metadata } from "next";
-import { StoreProvider } from "@/lib/storeProvider";
 import { classNames } from "@/utils/classNames";
+import { siteUrl } from "@/lib/site";
 
 const inter = Inter({ subsets: ["latin"] });
 
+const title = "Simulateur Euromillions : testez vos numéros et vos gains";
+const description =
+  "Jouez votre grille sur des centaines de tirages Euromillions en quelques secondes. Mises, gains, taux de retour : voyez ce que jouer rapporte vraiment.";
+
 export const metadata: Metadata = {
-  title: "Simulateur Euromillions - Jean Robertou",
-  description: "Simulation de tirages d'Euromillions",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: title,
+    template: "%s | Simulateur Euromillions",
+  },
+  description,
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "fr_FR",
+    url: "/",
+    siteName: "Simulateur Euromillions",
+    title,
+    description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  authors: [{ name: "Jean Robertou", url: "https://www.jeanrobertou.com" }],
 };
 
 export default function RootLayout({
@@ -18,14 +48,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <StoreProvider>
-      <html lang="fr">
-        <body className={classNames(inter.className, "bg-ship-cove-100/50 text-calypso-500")}>
-            <div className="pt-8 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-16">
-              {children}
-          </div>
-        </body>
-      </html>
-    </StoreProvider>
+    <html lang="fr">
+      <body className={classNames(inter.className, "bg-ship-cove-100/50 text-calypso-500")}>
+        <div className="pt-8 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-16">
+          {children}
+        </div>
+
+        <Analytics />
+      </body>
+    </html>
   );
 }

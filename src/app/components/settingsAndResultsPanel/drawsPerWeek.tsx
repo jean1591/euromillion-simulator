@@ -1,27 +1,29 @@
-import { useEffect, useState } from "react";
-
 import { Switch } from "@headlessui/react";
 import { classNames } from "@/utils/classNames";
-import { setNumberOfDrawsPerWeek } from "@/lib/features/simulationSettings/slice";
-import { useDispatch } from "react-redux";
+import { useSimulationStore } from "@/lib/store";
 
 export const NumberOfDrawsPerWeek = () => {
-  const dispatch = useDispatch();
+  const numberOfDrawsPerWeek = useSimulationStore(
+    (state) => state.numberOfDrawsPerWeek
+  );
+  const setNumberOfDrawsPerWeek = useSimulationStore(
+    (state) => state.setNumberOfDrawsPerWeek
+  );
 
-  const [enabled, setEnabled] = useState(true);
-
-  useEffect(() => {
-    dispatch(setNumberOfDrawsPerWeek(enabled ? 2 : 1));
-  }, [enabled]);
+  const enabled = numberOfDrawsPerWeek === 2;
 
   return (
     <Switch.Group as="div" className="flex items-center justify-between">
+      <Switch.Label className="text-base font-medium">
+        {enabled ? "2 tirages par semaine" : "1 tirage par semaine"}
+      </Switch.Label>
+
       <Switch
         checked={enabled}
-        onChange={setEnabled}
+        onChange={(checked: boolean) => setNumberOfDrawsPerWeek(checked ? 2 : 1)}
         className={classNames(
           enabled ? "bg-ship-cove-500" : "bg-gray-200",
-          "relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none"
+          "relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-calypso-500 focus-visible:ring-offset-2"
         )}
       >
         <span

@@ -1,14 +1,20 @@
-import { RootState } from "@/lib/store";
 import { SimulationStatus } from "../settingsAndResultsPanel/simulationStatus";
-import { useSelector } from "react-redux";
+import { TICKET_PRICE } from "@/utils/prizeTiers";
+import { useSimulationStore } from "@/lib/store";
 
 export const ResultsCard = () => {
-  const { numberOfDrawsPerWeek, numberOfWeeksToPlay } = useSelector(
-    (state: RootState) => state.simulationSettings
+  const numberOfDrawsPerWeek = useSimulationStore(
+    (state) => state.numberOfDrawsPerWeek
   );
-  const { drawsNumber, winnings, winningsArray } = useSelector(
-    (state: RootState) => state.simulationResults
+  const numberOfWeeksToPlay = useSimulationStore(
+    (state) => state.numberOfWeeksToPlay
   );
+  const drawsNumber = useSimulationStore((state) => state.drawsNumber);
+  const winnings = useSimulationStore((state) => state.winnings);
+  const winningDrawsCount = useSimulationStore(
+    (state) => state.winningDrawsCount
+  );
+  const biggestWin = useSimulationStore((state) => state.biggestWin);
 
   return (
     <div className="rounded-md bg-ship-cove-500 shadow-lg mb-10">
@@ -23,7 +29,7 @@ export const ResultsCard = () => {
 
         <div className="pt-5 grid grid-cols-3 gap-3">
           <div className="bg-light-shade border border-ship-cove-200 rounded-md shadow-sm text-base p-3">
-            <p className="font-medium">{`${drawsNumber * 2.5}€`}</p>
+            <p className="font-medium">{`${drawsNumber * TICKET_PRICE}€`}</p>
             <p className="uppercase font-normal text-xs">Total dépensé</p>
           </div>
           <div className="bg-light-shade border border-ship-cove-200 rounded-md shadow-sm text-base p-3">
@@ -31,26 +37,24 @@ export const ResultsCard = () => {
             <p className="uppercase font-normal text-xs">Gains</p>
           </div>
           <div className="bg-light-shade border border-ship-cove-200 rounded-md shadow-sm text-base p-3">
-            <p className="font-medium">{`${-drawsNumber * 2.5 + winnings}€`}</p>
+            <p className="font-medium">{`${-drawsNumber * TICKET_PRICE + winnings}€`}</p>
             <p className="uppercase font-normal text-xs">Résultat</p>
           </div>
 
           <div className="bg-light-shade border border-ship-cove-200 rounded-md shadow-sm text-base p-3">
-            <p className="font-medium">{`${
-              winningsArray.length ? Math.max(...winningsArray) : 0
-            }€`}</p>
+            <p className="font-medium">{`${biggestWin}€`}</p>
             <p className="uppercase font-normal text-xs">Plus gros gain</p>
           </div>
           <div className="bg-light-shade border border-ship-cove-200 rounded-md shadow-sm text-base p-3">
-            <p className="font-medium">{`${(winningsArray.length
-              ? (winnings / (drawsNumber * 2.5)) * 100
+            <p className="font-medium">{`${(drawsNumber
+              ? (winnings / (drawsNumber * TICKET_PRICE)) * 100
               : 0
             ).toFixed(2)}%`}</p>
-            <p className="uppercase font-normal text-xs">Gains</p>
+            <p className="uppercase font-normal text-xs">Taux de retour</p>
           </div>
           <div className="bg-light-shade border border-ship-cove-200 rounded-md shadow-sm text-base p-3">
             <p className="font-medium">{`${(
-              (winningsArray.length / (drawsNumber ? drawsNumber : 1)) *
+              (winningDrawsCount / (drawsNumber ? drawsNumber : 1)) *
               100
             ).toFixed(2)}%`}</p>
             <p className="uppercase font-normal text-xs">Tirages gagnants</p>

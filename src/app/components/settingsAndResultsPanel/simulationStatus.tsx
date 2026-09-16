@@ -1,20 +1,10 @@
-import { useEffect, useState } from "react";
-
-import { RootState } from "@/lib/store";
-import { useSelector } from "react-redux";
+import { useSimulationStore } from "@/lib/store";
 
 export const SimulationStatus = () => {
-  const [simulationPercentage, setSimulationPercentage] = useState(0);
-  const { numberOfDraws } = useSelector(
-    (state: RootState) => state.simulationSettings
-  );
-  const { drawsNumber } = useSelector(
-    (state: RootState) => state.simulationResults
-  );
+  const numberOfDraws = useSimulationStore((state) => state.numberOfDraws);
+  const drawsNumber = useSimulationStore((state) => state.drawsNumber);
 
-  useEffect(() => {
-    setSimulationPercentage(Math.ceil((drawsNumber / numberOfDraws) * 100));
-  }, [drawsNumber, numberOfDraws]);
+  const simulationPercentage = Math.ceil((drawsNumber / numberOfDraws) * 100);
 
   return (
     <div className="overflow-hidden rounded-full bg-light-shade">

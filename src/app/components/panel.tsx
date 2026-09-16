@@ -11,7 +11,7 @@ export const Panel = ({
     <div
       className={classNames(
         height ? height : "",
-        "border border-ship-cove-200 bg-light-shade py-10 px-5 rounded-md overflow-y-scroll shadow-lg"
+        "border border-ship-cove-200 bg-light-shade py-10 px-5 rounded-md overflow-y-auto shadow-lg"
       )}
     >
       {children}

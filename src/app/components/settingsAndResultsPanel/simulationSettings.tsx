@@ -1,50 +1,29 @@
 import { MyNumbers } from "./myNumbers";
 import { NumberOfDrawsPerWeek } from "./drawsPerWeek";
+import { SpeedSelector } from "./speedSelector";
 import { StartAndPauseButton } from "./startAndPauseButton";
 import { WeekSelector } from "./weeksSelector";
-import { classNames } from "@/utils/classNames";
 
-export const SimuationSettings = () => {
+export const SimulationSettings = () => {
   return (
     <div>
-      <SingleSetting title="Vos numéros" paddingTop={false}>
-        <MyNumbers />
-      </SingleSetting>
+      <MyNumbers />
 
       <div className="pt-7">
-        <p className="text-base font-medium">Ajouter des semaines</p>
         <WeekSelector />
       </div>
 
-      <SingleSetting title="2 tirages par semaines">
+      <div className="pt-7">
         <NumberOfDrawsPerWeek />
-      </SingleSetting>
+      </div>
+
+      <div className="pt-7">
+        <SpeedSelector />
+      </div>
 
       <div className="pt-7">
         <StartAndPauseButton />
       </div>
-    </div>
-  );
-};
-
-const SingleSetting = ({
-  title,
-  children,
-  paddingTop = true,
-}: {
-  title: string;
-  children: React.ReactNode;
-  paddingTop?: boolean;
-}) => {
-  return (
-    <div
-      className={classNames(
-        paddingTop ? "pt-7" : "",
-        "flex items-center justify-between"
-      )}
-    >
-      <p className="text-base font-medium">{title}</p>
-      {children}
     </div>
   );
 };
