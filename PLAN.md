@@ -106,7 +106,7 @@ Lecture : la visibilité est acquise, le CTR ne suit pas. La famille
     les agrégats sont calculés au fil de l'eau, donc la mémoire est bornée
     et aucune dépendance n'est ajoutée
 
-- [ ] **10. `feat: persist the simulation`**
+- [x] **10. `feat: persist the simulation`**
   - middleware `persist` de Zustand, direct une fois le commit 3 fait
   - aujourd'hui un rechargement perd tout et régénère des numéros
 

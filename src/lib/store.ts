@@ -1,6 +1,10 @@
+import { createJSONStorage, persist } from "zustand/middleware";
+
 import { create } from "zustand";
 import { generateDraw } from "@/utils/generateDraw";
 import { winningsCalculator } from "@/utils/winningsCalculator";
+
+export const PERSIST_KEY = "euromillions-simulation";
 
 // Rendered as-is on the server so the first paint matches the hydrated
 // markup; randomiseMyNumbers replaces it once the client has taken over.
@@ -59,6 +63,48 @@ interface SimulationState {
   resetSimulationResults: () => void;
 }
 
+// Site data can be blocked outright, in which case touching localStorage
+// throws rather than returning nothing. Persistence is a convenience, so
+// it degrades to a no-op instead of taking the page down with it.
+const guardedLocalStorage: Storage = {
+  get length() {
+    try {
+      return window.localStorage.length;
+    } catch {
+      return 0;
+    }
+  },
+  clear: () => {
+    try {
+      window.localStorage.clear();
+    } catch {}
+  },
+  getItem: (key) => {
+    try {
+      return window.localStorage.getItem(key);
+    } catch {
+      return null;
+    }
+  },
+  key: (index) => {
+    try {
+      return window.localStorage.key(index);
+    } catch {
+      return null;
+    }
+  },
+  removeItem: (key) => {
+    try {
+      window.localStorage.removeItem(key);
+    } catch {}
+  },
+  setItem: (key, value) => {
+    try {
+      window.localStorage.setItem(key, value);
+    } catch {}
+  },
+};
+
 const emptyResults = {
   drawsNumber: 0,
   recentWinningDraws: [] as WinningDraw[],
@@ -67,101 +113,122 @@ const emptyResults = {
   biggestWin: 0,
 };
 
-export const useSimulationStore = create<SimulationState>()((set) => ({
-  myNumbers: DEFAULT_MY_NUMBERS,
-  numberOfDraws: DEFAULT_WEEKS_TO_PLAY * DEFAULT_DRAWS_PER_WEEK,
-  numberOfDrawsPerWeek: DEFAULT_DRAWS_PER_WEEK,
-  numberOfWeeksToPlay: DEFAULT_WEEKS_TO_PLAY,
-  simulationStatus: SimulationStatus.Idle,
-  speed: SPEEDS[0],
-  ...emptyResults,
-
-  // Results computed against another grid no longer describe this one.
-  setMyNumbers: (myNumbers) => set({ myNumbers, ...emptyResults }),
-
-  randomiseMyNumbers: () => set({ myNumbers: generateDraw(), ...emptyResults }),
-
-  setNumberOfWeeksToPlay: (numberOfWeeksToPlay) =>
-    set((state) => ({
-      numberOfWeeksToPlay,
-      numberOfDraws: numberOfWeeksToPlay * state.numberOfDrawsPerWeek,
-    })),
-
-  addToNumberOfWeeksToPlay: (weeks) =>
-    set((state) => {
-      const numberOfWeeksToPlay = state.numberOfWeeksToPlay + weeks;
-
-      return {
-        numberOfWeeksToPlay,
-        numberOfDraws: numberOfWeeksToPlay * state.numberOfDrawsPerWeek,
-      };
-    }),
-
-  resetNumberOfWeeksToPlay: () =>
-    set((state) => ({
+export const useSimulationStore = create<SimulationState>()(
+  persist<SimulationState>(
+    (set) => ({
+      myNumbers: DEFAULT_MY_NUMBERS,
+      numberOfDraws: DEFAULT_WEEKS_TO_PLAY * DEFAULT_DRAWS_PER_WEEK,
+      numberOfDrawsPerWeek: DEFAULT_DRAWS_PER_WEEK,
       numberOfWeeksToPlay: DEFAULT_WEEKS_TO_PLAY,
-      numberOfDraws: DEFAULT_WEEKS_TO_PLAY * state.numberOfDrawsPerWeek,
-    })),
+      simulationStatus: SimulationStatus.Idle,
+      speed: SPEEDS[0],
+      ...emptyResults,
 
-  setNumberOfDrawsPerWeek: (numberOfDrawsPerWeek) =>
-    set((state) => ({
-      numberOfDrawsPerWeek,
-      numberOfDraws: state.numberOfWeeksToPlay * numberOfDrawsPerWeek,
-    })),
+      // Results computed against another grid no longer describe this one.
+      setMyNumbers: (myNumbers) => set({ myNumbers, ...emptyResults }),
 
-  setSimulationStatus: (simulationStatus) => set({ simulationStatus }),
+      randomiseMyNumbers: () => set({ myNumbers: generateDraw(), ...emptyResults }),
 
-  setSpeed: (speed) => set({ speed }),
+      setNumberOfWeeksToPlay: (numberOfWeeksToPlay) =>
+        set((state) => ({
+          numberOfWeeksToPlay,
+          numberOfDraws: numberOfWeeksToPlay * state.numberOfDrawsPerWeek,
+        })),
 
-  // Resolves up to `count` draws in a single update. Batching matters:
-  // at speed 100 the per-draw version would have queued 100 renders for
-  // one frame's worth of simulation.
-  runDraws: (count) =>
-    set((state) => {
-      const drawsToRun = Math.min(count, state.numberOfDraws - state.drawsNumber);
+      addToNumberOfWeeksToPlay: (weeks) =>
+        set((state) => {
+          const numberOfWeeksToPlay = state.numberOfWeeksToPlay + weeks;
 
-      if (drawsToRun <= 0) {
-        return {};
-      }
+          return {
+            numberOfWeeksToPlay,
+            numberOfDraws: numberOfWeeksToPlay * state.numberOfDrawsPerWeek,
+          };
+        }),
 
-      const winningDraws: WinningDraw[] = [];
-      let winnings = 0;
-      let biggestWin = state.biggestWin;
+      resetNumberOfWeeksToPlay: () =>
+        set((state) => ({
+          numberOfWeeksToPlay: DEFAULT_WEEKS_TO_PLAY,
+          numberOfDraws: DEFAULT_WEEKS_TO_PLAY * state.numberOfDrawsPerWeek,
+        })),
 
-      for (let index = 0; index < drawsToRun; index++) {
-        const draw = generateDraw();
-        const amount = winningsCalculator(state.myNumbers, draw);
+      setNumberOfDrawsPerWeek: (numberOfDrawsPerWeek) =>
+        set((state) => ({
+          numberOfDrawsPerWeek,
+          numberOfDraws: state.numberOfWeeksToPlay * numberOfDrawsPerWeek,
+        })),
 
-        if (amount) {
-          // Most recent first, matching the order the panel reads in.
-          winningDraws.unshift({
-            id: state.drawsNumber + index + 1,
-            draw,
-            winnings: amount,
-          });
-          winnings += amount;
-          biggestWin = Math.max(biggestWin, amount);
-        }
-      }
+      setSimulationStatus: (simulationStatus) => set({ simulationStatus }),
 
-      return {
-        drawsNumber: state.drawsNumber + drawsToRun,
-        recentWinningDraws: [
-          ...winningDraws,
-          ...state.recentWinningDraws,
-        ].slice(0, MAX_RECENT_WINNING_DRAWS),
-        winningDrawsCount: state.winningDrawsCount + winningDraws.length,
-        winnings: state.winnings + winnings,
-        biggestWin,
-      };
+      setSpeed: (speed) => set({ speed }),
+
+      // Resolves up to `count` draws in a single update. Batching matters:
+      // at speed 100 the per-draw version would have queued 100 renders for
+      // one frame's worth of simulation.
+      runDraws: (count) =>
+        set((state) => {
+          const drawsToRun = Math.min(count, state.numberOfDraws - state.drawsNumber);
+
+          if (drawsToRun <= 0) {
+            return {};
+          }
+
+          const winningDraws: WinningDraw[] = [];
+          let winnings = 0;
+          let biggestWin = state.biggestWin;
+
+          for (let index = 0; index < drawsToRun; index++) {
+            const draw = generateDraw();
+            const amount = winningsCalculator(state.myNumbers, draw);
+
+            if (amount) {
+              // Most recent first, matching the order the panel reads in.
+              winningDraws.unshift({
+                id: state.drawsNumber + index + 1,
+                draw,
+                winnings: amount,
+              });
+              winnings += amount;
+              biggestWin = Math.max(biggestWin, amount);
+            }
+          }
+
+          return {
+            drawsNumber: state.drawsNumber + drawsToRun,
+            recentWinningDraws: [
+              ...winningDraws,
+              ...state.recentWinningDraws,
+            ].slice(0, MAX_RECENT_WINNING_DRAWS),
+            winningDrawsCount: state.winningDrawsCount + winningDraws.length,
+            winnings: state.winnings + winnings,
+            biggestWin,
+          };
+        }),
+
+      skipToEnd: () => {
+        const { numberOfDraws, drawsNumber, runDraws } = useSimulationStore.getState();
+
+        runDraws(numberOfDraws - drawsNumber);
+        set({ simulationStatus: SimulationStatus.Idle });
+      },
+
+      resetSimulationResults: () => set({ ...emptyResults }),
     }),
-
-  skipToEnd: () => {
-    const { numberOfDraws, drawsNumber, runDraws } = useSimulationStore.getState();
-
-    runDraws(numberOfDraws - drawsNumber);
-    set({ simulationStatus: SimulationStatus.Idle });
-  },
-
-  resetSimulationResults: () => set({ ...emptyResults }),
-}));
+    {
+      name: PERSIST_KEY,
+      version: 1,
+      // Rehydration is driven from the client after mount, so the markup
+      // React hydrates is the markup the server rendered.
+      skipHydration: true,
+      storage: createJSONStorage(() => guardedLocalStorage),
+      // simulationStatus is restored from progress instead, a run must
+      // not resume on its own after a reload.
+      partialize: (state) =>
+        Object.fromEntries(
+          Object.entries(state).filter(
+            ([key, value]) =>
+              typeof value !== "function" && key !== "simulationStatus"
+          )
+        ) as SimulationState,
+    }
+  )
+);

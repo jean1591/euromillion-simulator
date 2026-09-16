@@ -20,10 +20,6 @@ export const MyNumbers = () => {
   const isEditable = simulationStatus === SimulationStatus.Idle;
 
   useEffect(() => {
-    randomiseMyNumbers();
-  }, [randomiseMyNumbers]);
-
-  useEffect(() => {
     if (!isEditable) {
       setIsPicking(false);
     }

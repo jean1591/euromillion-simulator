@@ -3,8 +3,11 @@
 import { DrawsPanel } from "./components/drawsPanel/drawsPanel";
 import { ResultsCard } from "./components/results/resultsCard";
 import { SettingsAndResultsPanel } from "./components/settingsAndResultsPanel/settingsAndResultsPanel";
+import { useRestoreSimulation } from "@/lib/useRestoreSimulation";
 
 export default function Home() {
+  useRestoreSimulation();
+
   return (
     <div>
       <h1 className="text-4xl sm:text-5xl font-normal text-center text-calypso-600">
