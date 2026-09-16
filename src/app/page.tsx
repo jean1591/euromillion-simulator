@@ -1,6 +1,8 @@
+import { Faq } from "./components/content/faq";
 import { Odds } from "./components/content/odds";
 import { PrizeTable } from "./components/content/prizeTable";
 import { Simulator } from "./components/simulator";
+import { StructuredData } from "./components/content/structuredData";
 
 export default function Home() {
   return (
@@ -27,6 +29,12 @@ export default function Home() {
       <div className="mt-16">
         <Odds />
       </div>
+
+      <div className="mt-16">
+        <Faq />
+      </div>
+
+      <StructuredData />
     </div>
   );
 }

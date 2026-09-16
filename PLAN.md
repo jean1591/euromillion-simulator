@@ -132,7 +132,7 @@ Lecture : la visibilité est acquise, le CTR ne suit pas. La famille
   - sortir le prix du ticket `2.5`, codé en dur deux fois dans `resultsCard.tsx`
   - cible la famille « calcul gain euromillions », aujourd'hui en position 23 à 66
 
-- [ ] **14. `feat(seo): FAQ and JSON-LD`**
+- [x] **14. `feat(seo): FAQ and JSON-LD`**
   - `WebApplication` + `FAQPage`
 
 ### Mesure
