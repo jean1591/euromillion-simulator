@@ -32,6 +32,7 @@ export const simulationResultsSlice = createSlice({
     resetSimulationResults: (state) => {
       state.draws = [];
       state.drawsNumber = 0;
+      state.winningsArray = [];
       state.winnings = 0;
     },
   },

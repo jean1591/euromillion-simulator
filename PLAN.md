@@ -58,7 +58,7 @@ Lecture : la visibilité est acquise, le CTR ne suit pas. La famille
   - corriger la typo `SimuationSettings` (`simulationSettings.tsx:7`)
   - retirer le `console.log("Reseting simulation")` (`startAndPauseButton.tsx:26`)
 
-- [ ] **2. `fix: réinitialisation de la simulation`**
+- [x] **2. `fix: réinitialisation de la simulation`**
   - `startAndPauseButton.tsx:27` : `resetSimulationResults()` appelé sans `dispatch` → no-op.
     Conséquence : après une simulation terminée, le bouton ne fait plus rien, le statut
     retombe aussitôt en `Idle` via `draws.tsx:56`
