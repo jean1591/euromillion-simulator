@@ -137,7 +137,7 @@ Lecture : la visibilité est acquise, le CTR ne suit pas. La famille
 
 ### Mesure
 
-- [ ] **15. `chore: analytics`**
+- [x] **15. `chore: analytics`**
   - sans instrumentation, aucun des commits précédents n'est mesurable
 
 ## Hors périmètre de cette PR

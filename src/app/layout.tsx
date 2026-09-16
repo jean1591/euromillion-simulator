@@ -1,5 +1,6 @@
 import "./globals.css";
 
+import { Analytics } from "@vercel/analytics/react";
 import { Inter } from "next/font/google";
 import { Metadata } from "next";
 import { classNames } from "@/utils/classNames";
@@ -52,6 +53,8 @@ export default function RootLayout({
         <div className="pt-8 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-16">
           {children}
         </div>
+
+        <Analytics />
       </body>
     </html>
   );
