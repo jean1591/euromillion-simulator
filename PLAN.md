@@ -118,7 +118,7 @@ Lecture : la visibilité est acquise, le CTR ne suit pas. La famille
   - passer en `sitemap.ts` / `robots.ts`
   - hygiène, pas un blocage : la page est déjà indexée
 
-- [ ] **12. `feat(seo): complete metadata`**
+- [x] **12. `feat(seo): complete metadata`**
   - `layout.tsx:11` réduit à `title` + `description`
   - ajouter `metadataBase`, canonical, Open Graph, Twitter
   - resserrer le titre : le suffixe `- Jean Robertou` consomme des pixels pour un CTR à 0,72 %
