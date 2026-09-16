@@ -48,9 +48,10 @@ export const useSimulationStore = create<SimulationState>()((set) => ({
   simulationStatus: SimulationStatus.Idle,
   ...emptyResults,
 
-  setMyNumbers: (myNumbers) => set({ myNumbers }),
+  // Results computed against another grid no longer describe this one.
+  setMyNumbers: (myNumbers) => set({ myNumbers, ...emptyResults }),
 
-  randomiseMyNumbers: () => set({ myNumbers: generateDraw() }),
+  randomiseMyNumbers: () => set({ myNumbers: generateDraw(), ...emptyResults }),
 
   setNumberOfWeeksToPlay: (numberOfWeeksToPlay) =>
     set((state) => ({

@@ -2,14 +2,11 @@ import { MyNumbers } from "./myNumbers";
 import { NumberOfDrawsPerWeek } from "./drawsPerWeek";
 import { StartAndPauseButton } from "./startAndPauseButton";
 import { WeekSelector } from "./weeksSelector";
-import { classNames } from "@/utils/classNames";
 
 export const SimulationSettings = () => {
   return (
     <div>
-      <SingleSetting title="Vos numéros" paddingTop={false}>
-        <MyNumbers />
-      </SingleSetting>
+      <MyNumbers />
 
       <div className="pt-7">
         <p className="text-base font-medium">Ajouter des semaines</p>
@@ -23,28 +20,6 @@ export const SimulationSettings = () => {
       <div className="pt-7">
         <StartAndPauseButton />
       </div>
-    </div>
-  );
-};
-
-const SingleSetting = ({
-  title,
-  children,
-  paddingTop = true,
-}: {
-  title: string;
-  children: React.ReactNode;
-  paddingTop?: boolean;
-}) => {
-  return (
-    <div
-      className={classNames(
-        paddingTop ? "pt-7" : "",
-        "flex items-center justify-between"
-      )}
-    >
-      <p className="text-base font-medium">{title}</p>
-      {children}
     </div>
   );
 };

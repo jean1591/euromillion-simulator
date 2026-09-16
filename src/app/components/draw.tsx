@@ -1,3 +1,5 @@
+import { baseNumbersOf, starNumbersOf } from "@/utils/euromillions";
+
 import { classNames } from "@/utils/classNames";
 
 export const Draw = ({
@@ -7,12 +9,12 @@ export const Draw = ({
   draw: number[];
   myNumbers: number[];
 }) => {
-  const myBaseNumbers = myNumbers.slice(0, -2);
-  const myStarNumbers = myNumbers.slice(-2);
+  const myBaseNumbers = baseNumbersOf(myNumbers);
+  const myStarNumbers = starNumbersOf(myNumbers);
 
   return (
     <ul className="flex gap-x-2 mt-5">
-      {draw.slice(0, -2).map((number) => (
+      {baseNumbersOf(draw).map((number) => (
         <Ball
           key={`base-${number}`}
           number={number}
@@ -21,7 +23,7 @@ export const Draw = ({
         />
       ))}
 
-      {draw.slice(-2).map((number) => (
+      {starNumbersOf(draw).map((number) => (
         <Ball
           key={`star-${number}`}
           number={number}

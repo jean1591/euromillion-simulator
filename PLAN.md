@@ -91,7 +91,7 @@ Lecture : la visibilité est acquise, le CTR ne suit pas. La famille
     initial déterministe — elles vident le premier rendu et provoquent un saut de mise en page
   - retirer l'`overflow-y-scroll` permanent du `Panel`
 
-- [ ] **7. `feat: let users pick their own numbers`**
+- [x] **7. `feat: let users pick their own numbers`**
   - `myNumbers.tsx` n'affiche qu'un tirage aléatoire en lecture seule
 
 - [ ] **8. `feat: simulation controls`**

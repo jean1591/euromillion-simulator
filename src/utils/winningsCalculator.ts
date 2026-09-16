@@ -1,14 +1,13 @@
+import { baseNumbersOf, starNumbersOf } from "./euromillions";
+
 import { intersection } from "lodash";
 
 export const winningsCalculator = (myNumbers: number[], draw: number[]) => {
-  const myNumbersWithoutStars = myNumbers.slice(0, -2);
-  const myNumbersStars = myNumbers.slice(-2);
-
-  const drawWithoutStars = draw.slice(0, -2);
-  const drawStars = draw.slice(-2);
-
-  const winningNumbers = intersection(myNumbersWithoutStars, drawWithoutStars);
-  const winningStars = intersection(myNumbersStars, drawStars);
+  const winningNumbers = intersection(
+    baseNumbersOf(myNumbers),
+    baseNumbersOf(draw)
+  );
+  const winningStars = intersection(starNumbersOf(myNumbers), starNumbersOf(draw));
 
   return winningsMap[`${winningNumbers.length}+${winningStars.length}`];
 };
