@@ -79,7 +79,7 @@ Lecture : la visibilité est acquise, le CTR ne suit pas. La famille
 
 ### UX
 
-- [ ] **5. `fix: labels and accessibility`**
+- [x] **5. `fix: labels and accessibility`**
   - libellé `2 tirages par semaines` statique alors que le switch bascule 1↔2,
     plus la faute d'accord (`simulationSettings.tsx:20`)
   - `Switch.Label` manquant (`drawsPerWeek.tsx`)

@@ -48,7 +48,7 @@ export const ResultsCard = () => {
               ? (winnings / (drawsNumber * 2.5)) * 100
               : 0
             ).toFixed(2)}%`}</p>
-            <p className="uppercase font-normal text-xs">Gains</p>
+            <p className="uppercase font-normal text-xs">Taux de retour</p>
           </div>
           <div className="bg-light-shade border border-ship-cove-200 rounded-md shadow-sm text-base p-3">
             <p className="font-medium">{`${(

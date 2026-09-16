@@ -16,9 +16,9 @@ export const SimulationSettings = () => {
         <WeekSelector />
       </div>
 
-      <SingleSetting title="2 tirages par semaines">
+      <div className="pt-7">
         <NumberOfDrawsPerWeek />
-      </SingleSetting>
+      </div>
 
       <div className="pt-7">
         <StartAndPauseButton />

@@ -7,34 +7,55 @@ export const Draw = ({
   draw: number[];
   myNumbers: number[];
 }) => {
-  const baseNumbers = myNumbers.slice(0, -2);
-  const starNumbers = myNumbers.slice(-2);
+  const myBaseNumbers = myNumbers.slice(0, -2);
+  const myStarNumbers = myNumbers.slice(-2);
 
   return (
-    <div className="flex gap-x-2 mt-5">
-      {draw.slice(0, -2).map((num) => (
-        <p
-          key={num}
-          className={classNames(
-            baseNumbers.includes(num) ? "bg-green-200" : "",
-            "w-7 h-7 md:w-10 md:h-10 rounded-full flex justify-center items-center border border-ship-cove-500"
-          )}
-        >
-          {num}
-        </p>
+    <ul className="flex gap-x-2 mt-5">
+      {draw.slice(0, -2).map((number) => (
+        <Ball
+          key={`base-${number}`}
+          number={number}
+          label={`Numéro ${number}`}
+          isMatched={myBaseNumbers.includes(number)}
+        />
       ))}
 
-      {draw.slice(-2).map((num) => (
-        <p
-          key={num}
-          className={classNames(
-            starNumbers.includes(num) ? "bg-green-200" : "bg-ship-cove-100",
-            "w-7 h-7 md:w-10 md:h-10 rounded-full flex justify-center items-center border border-ship-cove-500"
-          )}
-        >
-          {num}
-        </p>
+      {draw.slice(-2).map((number) => (
+        <Ball
+          key={`star-${number}`}
+          number={number}
+          label={`Étoile ${number}`}
+          isMatched={myStarNumbers.includes(number)}
+          isStar
+        />
       ))}
-    </div>
+    </ul>
+  );
+};
+
+const Ball = ({
+  number,
+  label,
+  isMatched,
+  isStar = false,
+}: {
+  number: number;
+  label: string;
+  isMatched: boolean;
+  isStar?: boolean;
+}) => {
+  return (
+    <li
+      aria-label={isMatched ? `${label}, trouvé` : label}
+      className={classNames(
+        isMatched
+          ? "bg-green-200 border-green-700 font-semibold"
+          : classNames(isStar ? "bg-ship-cove-100" : "", "border-ship-cove-500"),
+        "w-7 h-7 md:w-10 md:h-10 rounded-full flex justify-center items-center border"
+      )}
+    >
+      {number}
+    </li>
   );
 };
